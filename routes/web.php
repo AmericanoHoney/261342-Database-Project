@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,7 +23,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/products', fn() => view('products.index'))->name('products');
     Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
     Route::get('/history', fn() => view('history.index'))->name('history');
-    Route::get('/cart', fn() => view('cart.index'))->name('cart');
+    
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+
 });
 
 require __DIR__.'/auth.php';

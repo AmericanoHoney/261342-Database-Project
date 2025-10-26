@@ -20,5 +20,7 @@ class UserSeeder extends Seeder
             'address' => 'Chiang Mai, Thailand',
             'bdate' => '2004-03-15',
         ]);
+
+        User::factory(5)->create();
     }
 }

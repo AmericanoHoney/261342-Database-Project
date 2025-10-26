@@ -18,6 +18,10 @@ return new class extends Migration
                     ->on('users')
                     ->onDelete('cascade');
 
+            $table->date('delivery_date')->nullable();
+            $table->time('delivery_time')->nullable();
+            $table->string('delivery_address')->nullable();
+
             $table->dateTime('order_date');
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending');

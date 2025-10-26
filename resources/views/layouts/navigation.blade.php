@@ -24,7 +24,7 @@
 <div class="flex items-center space-x-4 relative">
 
     <!-- 🛒 Cart Icon -->
-    <a href="{{ route('cart') }}" 
+    <a href="{{ route('cart.index') }}" 
        class="text-pink-600 hover:text-pink-700 transition relative">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
              stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
