@@ -11,13 +11,7 @@
                 <h1 class="text-3xl font-semibold text-gray-900 text-center">Favorite Collection</h1>
             </div>
 
-            <button
-                type="button"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm text-sm text-gray-700 hover:border-gray-300"
-            >
-                Filter
-                <span class="inline-block w-2.5 h-2.5 border-b-2 border-r-2 border-current rotate-45 translate-y-[1px]"></span>
-            </button>
+            <x-filter.filter-button />
         </div>
 
         <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

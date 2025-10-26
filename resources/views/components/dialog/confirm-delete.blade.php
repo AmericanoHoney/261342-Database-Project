@@ -30,9 +30,12 @@
                 class="relative w-full max-w-xs bg-white text-gray-900 rounded-[32px] px-8 py-10 text-center space-y-6 shadow-[0_25px_60px_-20px_rgba(15,23,42,0.45)]"
             >
                 <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3h6m-7 4h8m-9 2.5 1 9.5a1 1 0 0 0 .99.9h6.02a1 1 0 0 0 .99-.9l1-9.5M10 9v7m4-7v7" />
-                    </svg>
+                    <img
+                        src="{{ asset('images/rubbish_bin.svg') }}"
+                        alt=""
+                        class="h-9 w-9"
+                        aria-hidden="true"
+                    >
                 </div>
 
                 <div class="space-y-2">
