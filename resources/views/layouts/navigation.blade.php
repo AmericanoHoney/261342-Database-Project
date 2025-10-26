@@ -4,7 +4,7 @@
             
             <!-- Left: Logo -->
             <div class="flex items-center space-x-2">
-                <img src="{{ asset('images/logo.png') }}" alt="Flortalera" class="h-8 w-8">
+                <img src="{{ asset('images/logo.svg') }}" alt="Flortalera" class="h-10 w-10">
                 <span class="text-lg font-semibold text-gray-800 dark:text-gray-100">Flortalera</span>
             </div>
 
