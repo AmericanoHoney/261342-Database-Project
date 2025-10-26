@@ -122,22 +122,22 @@
 
                 <div class="form-row">
                     <div style="flex:1">
-                        <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}">
-                        @error('first_name')<div class="error-message">{{ $message }}</div>@enderror
+                        <label for="fname">First Name</label>
+                        <input type="text" id="fname" name="fname" value="{{ old('fname') }}">
+                        @error('fname')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                     <div style="flex:1">
-                        <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" value="{{ old('last_name') }}">
-                        @error('last_name')<div class="error-message">{{ $message }}</div>@enderror
+                        <label for="lname">Last Name</label>
+                        <input type="text" id="lname" name="lname" value="{{ old('lname') }}">
+                        @error('lname')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div style="flex:1">
-                        <label for="birthdate">Birthdate</label>
-                        <input type="date" id="birthdate" name="birthdate" value="{{ old('birthdate') }}">
-                        @error('birthdate')<div class="error-message">{{ $message }}</div>@enderror
+                        <label for="bdate">Birthdate</label>
+                        <input type="date" id="bdate" name="bdate" value="{{ old('bdate') }}">
+                        @error('bdate')<div class="error-message">{{ $message }}</div>@enderror
                     </div>
                     <div style="flex:1">
                         <label for="phone">Phone Number</label>
