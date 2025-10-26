@@ -14,13 +14,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 m-0 p-0 overflow-x-hidden">
+        <!-- Wrapper -->
+        <div class="min-h-screen pb-12"> <!-- pb-12 กันไม่ให้เนื้อหาทับ footer -->
+            
+            <!-- Navbar -->
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
+                <header class="bg-white dark:bg-gray-800 shadow-none mb-0 border-0">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -28,9 +32,16 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="mb-0">
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- 🌸 Fixed Footer (แนบขอบล่างสุดตลอดเวลา) -->
+        <footer class="fixed bottom-0 left-0 w-full bg-pink-600 text-white text-center py-3 z-50 m-0 border-0 rounded-none shadow-none">
+            <p class="text-sm font-medium">
+                © {{ date('Y') }} Flortalera | All Rights Reserved
+            </p>
+        </footer>
     </body>
 </html>
