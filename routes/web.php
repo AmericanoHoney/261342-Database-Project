@@ -1,28 +1,26 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// หน้าแรก
 Route::get('/', function () {
     return view('welcome');
 });
 
-// หน้า Login
-Route::get('/login', function () {
-    return view('login'); 
-})->name('login');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// หน้า Sign Up / Register
-Route::get('/signup', function () {
-    return view('signup'); 
-})->name('signup');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-// หน้า Home (หลังจาก login)
-Route::get('/home', function () {
-    return view('home'); 
-})->name('home');
+    
+    Route::get('/products', fn() => view('products.index'))->name('products');
+    Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
+    Route::get('/history', fn() => view('history.index'))->name('history');
+    Route::get('/cart', fn() => view('cart.index'))->name('cart');
+});
 
-// หน้า Profile
-Route::get('/profile', function () {
-    return view('profile'); 
-})->name('profile');
+require __DIR__.'/auth.php';
