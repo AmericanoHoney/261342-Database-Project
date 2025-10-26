@@ -14,6 +14,6 @@ class DashboardController extends Controller
             ->take(10)
             ->get(['promotion_id','name','promotion_photo','discount_percent','active']);
 
-        return view('dashboard', compact('promotions')); // <<< สำคัญ
+        return view('dashboard', compact('promotions'));
     }
 }
