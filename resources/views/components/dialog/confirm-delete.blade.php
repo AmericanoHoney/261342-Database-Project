@@ -29,7 +29,7 @@
                 x-transition.scale
                 class="relative w-full max-w-xs bg-white text-gray-900 rounded-[32px] px-8 py-10 text-center space-y-6 shadow-[0_25px_60px_-20px_rgba(15,23,42,0.45)]"
             >
-                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#FCE5E7]">
                     <img
                         src="{{ asset('images/rubbish_bin.svg') }}"
                         alt=""
@@ -53,7 +53,7 @@
                     </button>
                     <button
                         type="button"
-                        class="min-w-[90px] rounded-full bg-[#24496b] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1d3b56] transition"
+                        class="min-w-[90px] rounded-full bg-[#B6487B] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1d3b56] transition"
                         x-on:click="
                             window.requestAnimationFrame(() => {
                                 document.getElementById('{{ $formId }}')?.submit();

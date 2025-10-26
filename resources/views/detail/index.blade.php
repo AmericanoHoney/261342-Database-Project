@@ -6,48 +6,30 @@
 @endphp
 
 <x-app-layout>
-    <div class="max-w-5xl mx-auto px-6 py-12 space-y-8">
-        <div class="flex items-center justify-between gap-4">
-            <a href="{{ route('favorites') }}" class="text-sm text-[#B6487B] hover:underline">&larr; Back to favorites</a>
-            @if (session('status'))
-                <div class="rounded-full bg-green-100 text-green-700 px-4 py-2 text-sm">
-                    {{ session('status') }}
-                </div>
-            @endif
-        </div>
+    <section class="min-h-screen bg-white py-20">
+        <div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 tracking-wide">
+            @php
+                $removeFavoriteRoute = $product->exists
+                    ? route('favorites.destroy', $product)
+                    : null;
+            @endphp
 
-        <div class="grid gap-10 md:grid-cols-2 items-start">
-            <div class="bg-white rounded-[40px] shadow-md overflow-hidden">
-                <img
-                    src="{{ $imageUrl }}"
-                    alt="{{ $product->name }}"
-                    class="w-full h-full object-cover"
+            <div class="flex flex-wrap items-center justify-between gap-4">
+
+                @if (session('status'))
+                    <div class="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 shadow">
+                        {{ session('status') }}
+                    </div>
+                @endif
+            </div>
+
+            <div class="rounded-[56px] bg-[#FDFDFD] p-12 shadow-[0_45px_95px_rgba(0,0,0,0.08)]">
+                <x-detail.product-showcase
+                    :product="$product"
+                    :image-url="$imageUrl"
+                    :remove-favorite-action="$removeFavoriteRoute"
                 />
             </div>
-
-            <div class="space-y-6">
-                <div>
-                    <p class="text-sm text-gray-500">{{ $product->category?->name ?? 'Uncategorized' }}</p>
-                    <h1 class="text-3xl font-semibold text-gray-900 mt-2">{{ $product->name }}</h1>
-                </div>
-
-                <p class="text-2xl font-semibold text-[#B6487B]">${{ number_format((float) $product->price, 2) }}</p>
-
-                <div class="text-sm text-gray-600 leading-relaxed">
-                    {{ $product->description ?? 'No description available for this product yet.' }}
-                </div>
-
-                <form method="POST" action="{{ route('favorites.destroy', $product) }}" class="pt-4">
-                    @csrf
-                    @method('DELETE')
-                    <button
-                        type="submit"
-                        class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#B6487B] text-white font-semibold shadow hover:bg-[#9d3a68] transition"
-                    >
-                        Remove from favorites
-                    </button>
-                </form>
-            </div>
         </div>
-    </div>
+    </section>
 </x-app-layout>

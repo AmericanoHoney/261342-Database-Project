@@ -35,7 +35,7 @@
                         <x-slot name="favoriteAction">
                             <x-dialog.confirm-delete
                                 :form-id="$formId"
-                                title="Remove from favorites?"
+                                title="Remove From Favorites?"
                                 :message="__('Are you sure you want to remove :name from your favorites?', ['name' => $product->name])"
                                 confirm-text="Yes"
                                 cancel-text="No"
