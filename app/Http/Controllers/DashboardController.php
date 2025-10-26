@@ -15,7 +15,7 @@ class DashboardController extends Controller
             ->get(['promotion_id','name','promotion_photo','discount_percent','active']);
 
         $products = Product::with('category')
-            ->latest() // อิง created_at/updated_at
+            ->latest()
             ->take(8)
             ->get(['product_id','name','price','image_url','category_id']);
 
