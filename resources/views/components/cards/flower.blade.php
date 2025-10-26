@@ -17,13 +17,18 @@
             class="w-[260px] h-[260px] object-cover"
         />
         <div class="absolute top-3 right-3">
-
-                <img src="/images/fav.svg" alt="">
+            @isset($favoriteAction)
+                {{ $favoriteAction }}
+            @else
+                <div class="w-10 h-10 flex items-center justify-center">
+                    <img src="{{ asset('images/fav.svg') }}" alt="Favorite" class="w-10 h-10">
+                </div>
+            @endisset
         </div>
     </div>
 
     <div class="px-6 py-4">
-        <p class="text-sm text-[#626262]">Category</p>
+        <p class="text-sm text-[#626262]">{{ $category }}</p>
         <h3 class="text-lg font-semibold text-gray-900">{{ $name }}</h3>
         <p class="text-sm font-semibold text-[#B6487B]">{{ $formattedPrice }}</p>
     </div>

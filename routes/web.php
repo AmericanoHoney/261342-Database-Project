@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,9 @@ Route::middleware('auth')->group(function () {
 
     
     Route::get('/products', fn() => view('products.index'))->name('products');
-    Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
+    Route::get('/favorites', [FavouriteController::class, 'index'])->name('favorites');
+    Route::get('/favorites/{product}', [FavouriteController::class, 'show'])->name('favorites.show');
+    Route::delete('/favorites/{product}', [FavouriteController::class, 'destroy'])->name('favorites.destroy');
     Route::get('/history', fn() => view('history.index'))->name('history');
     Route::get('/cart', fn() => view('cart.index'))->name('cart');
 });
