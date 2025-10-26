@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,12 +23,14 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/products', fn() => view('products.index'))->name('products');
     Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
-    Route::get('/history', fn() => view('history.index'))->name('history');
     
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
 });
 

@@ -57,6 +57,7 @@ class CheckoutController extends Controller
             $order = Order::create([
                 'user_id' => $user->id,
                 'order_date' => now(),
+                'subtotal' => $subtotal,
                 'total_price' => $total,
                 'status' => 'Pending',
                 'delivery_date' => $request->delivery_date,
@@ -96,8 +97,8 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            return redirect()->route('cart.index')
-                ->with('status', "✅ Order placed successfully! Subtotal: ฿{$subtotal}, Discount: ฿{$discount}, Total: ฿{$total}");
+            return redirect()->route('orders.history')
+                    ->with('status', "✅ Order placed successfully! See your history below.");
 
         } catch (\Exception $e) {
             DB::rollBack();

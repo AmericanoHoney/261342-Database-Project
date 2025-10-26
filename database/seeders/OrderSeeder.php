@@ -17,7 +17,8 @@ class OrderSeeder extends Seeder
         Order::create([
             'user_id' => $user->id,
             'order_date' => Carbon::now(),
-            'total_price' => 1200.00,
+            'subtotal' => 1200.00,
+            'total_price' => 1080.00,
             'status' => 'Pending'
         ]);
     }

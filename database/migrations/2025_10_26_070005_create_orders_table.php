@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('delivery_address')->nullable();
 
             $table->dateTime('order_date');
+            $table->decimal('subtotal', 10, 2);
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending');
             $table->timestamps();
