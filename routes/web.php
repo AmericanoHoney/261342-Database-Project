@@ -15,6 +15,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    
+    Route::get('/products', fn() => view('products.index'))->name('products');
+    Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
+    Route::get('/history', fn() => view('history.index'))->name('history');
+    Route::get('/cart', fn() => view('cart.index'))->name('cart');
 });
 
 require __DIR__.'/auth.php';
