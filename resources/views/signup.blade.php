@@ -73,7 +73,7 @@
             background-color: #DABAC9; 
             border: none; 
             border-radius: 25px; 
-            font-size: 16px; 
+            font-size: 18px; 
             font-family: 'Inria Serif', serif;
             cursor: pointer; 
             margin-top: 15px; 
