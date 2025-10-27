@@ -84,10 +84,70 @@
             justify-content: flex-end;
             margin-top: 10px;
         }
+        .checkmark {
+            display: inline-block;
+            color: #09ff00ff; /* สีเขียว */
+            font-size: 24px;
+            margin-right: 10px;
+            opacity: 0;
+            transform: scale(0);
+            animation: popCheck 1s forwards;
+        }
+
+        /* Animation */
+        @keyframes popCheck {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.25); /* 25% ดำ */
+            z-index: 9998;
+        }
+
+        #success-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffffff;
+            color: #f472b6;
+            font-weight: bold;
+            padding: 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0);
+            z-index: 9999;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+
+        #success-popup.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
     </style>
 
     <div class="profile-container">
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" id="profile-form">
             @csrf
             @method('PUT')
 
@@ -99,17 +159,13 @@
                     @if (!empty($user->photo))
                         <img id="preview" src="{{ asset('storage/' . $user->photo) }}" alt="Profile Picture">
                     @else
-                     <img id="preview" src="{{ asset('images/default-profile.jpg') }}" alt="Default Picture">
+                        <img id="preview" src="{{ asset('images/default-profile.jpg') }}" alt="Default Picture">
                     @endif
                     <input type="file" id="photo" name="photo" accept="image/*" onchange="previewImage(event)">
                 </label>
 
                 <!-- Info Fields -->
                 <div class="info-fields">
-                    @if(session('success'))
-                        <p class="text-green-600 mb-4">{{ session('success') }}</p>
-                    @endif
-
                     <div class="row">
                         <div class="half">
                             <label>First Name</label>
@@ -152,6 +208,15 @@
         </form>
     </div>
 
+    <!-- Popup Overlay -->
+    <div id="popup-overlay"></div>
+
+    <!-- Popup element -->
+    <div id="success-popup">
+        <span class="checkmark">✔</span>
+        Profile updated successfully
+    </div>
+
     <script>
         function previewImage(event) {
             const reader = new FileReader();
@@ -160,5 +225,29 @@
             }
             reader.readAsDataURL(event.target.files[0]);
         }
+
+        // 🌸 Popup show in center
+        const form = document.getElementById('profile-form');
+        const popup = document.getElementById('success-popup');
+        const overlay = document.getElementById('popup-overlay');
+
+        form.addEventListener('submit', function() {
+            event.preventDefault();
+
+            overlay.style.display = 'block';
+            popup.style.display = 'block';
+            popup.classList.add('show');
+
+            const checkmark = popup.querySelector('.checkmark');
+            checkmark.style.opacity = '1';
+            checkmark.style.transform = 'scale(1)';
+
+            setTimeout(() => {
+                popup.classList.remove('show');
+                overlay.style.display = 'none';
+                setTimeout(() => popup.style.display = 'none', 400);
+                form.submit();
+            }, 2000);
+        });
     </script>
 </x-app-layout>
