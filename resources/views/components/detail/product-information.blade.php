@@ -1,5 +1,7 @@
 @props([
     'product',
+    'isFavorite' => false,
+    'addFavoriteAction' => null,
     'removeFavoriteAction' => null,
 ])
 
@@ -10,8 +12,9 @@
     $price = number_format((float) $product->price, 2);
     $isInStock = (int) ($product->stock ?? 0) > 0;
     $badgeLabel = $isInStock ? __('In Stock') : __('Out of Stock');
-    $favoriteFormId = $removeFavoriteAction ? 'remove-favorite-'.uniqid() : null;
     $maxQuantity = max(1, (int) ($product->stock ?? 1));
+    $favoriteButtonClasses = 'inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#B6487B] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
+    $favoriteButtonClasses .= $isFavorite ? ' bg-[#B6487B]/10 hover:bg-[#B6487B]/20' : ' hover:bg-[#B6487B]/10';
 @endphp
 
 <div {{ $attributes->class('space-y-8') }}>
@@ -73,13 +76,31 @@
                 {{ __('Add to cart') }}
             </a>
 
-            @if ($removeFavoriteAction)
-                <form id="{{ $favoriteFormId }}" method="POST" action="{{ $removeFavoriteAction }}" class="hidden">
+            @if ($addFavoriteAction)
+                <form method="POST" action="{{ $addFavoriteAction }}">
+                    @csrf
+                    <button
+                        type="submit"
+                        class="{{ $favoriteButtonClasses }}"
+                        title="{{ __('Add to favorites') }}"
+                        aria-label="{{ __('Add to favorites') }}"
+                    >
+                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-8 w-8">
+                    </button>
+                </form>
+            @elseif ($removeFavoriteAction)
+                <form method="POST" action="{{ $removeFavoriteAction }}">
                     @csrf
                     @method('DELETE')
+                    <button
+                        type="submit"
+                        class="{{ $favoriteButtonClasses }}"
+                        title="{{ __('Remove from favorites') }}"
+                        aria-label="{{ __('Remove from favorites') }}"
+                    >
+                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-8 w-8">
+                    </button>
                 </form>
-
-                <img src="images/fav.svg" alt="images/fav.svg">
             @endif
         </div>
     </div>

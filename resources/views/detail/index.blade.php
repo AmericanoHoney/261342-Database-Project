@@ -3,17 +3,19 @@
     $imageUrl = $imagePath
         ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
         : asset('images/flowers/ex1.webp');
+    $isFavorited = $isFavorited ?? false;
+    $canFavorite = auth()->check() && $product->exists;
+    $addFavoriteRoute = $canFavorite && ! $isFavorited
+        ? route('favorites.store', $product)
+        : null;
+    $removeFavoriteRoute = $canFavorite && $isFavorited
+        ? route('favorites.destroy', $product)
+        : null;
 @endphp
 
 <x-app-layout>
     <section class="min-h-screen bg-white py-20">
         <div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 tracking-wide">
-            @php
-                $removeFavoriteRoute = $product->exists
-                    ? route('favorites.destroy', $product)
-                    : null;
-            @endphp
-
             <div class="flex flex-wrap items-center justify-between gap-4">
 
                 @if (session('status'))
@@ -27,6 +29,8 @@
                 <x-detail.product-showcase
                     :product="$product"
                     :image-url="$imageUrl"
+                    :is-favorite="$isFavorited"
+                    :add-favorite-action="$addFavoriteRoute"
                     :remove-favorite-action="$removeFavoriteRoute"
                 />
             </div>
