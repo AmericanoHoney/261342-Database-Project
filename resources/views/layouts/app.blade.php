@@ -19,7 +19,7 @@
 
     <body class="font-sans antialiased bg-white dark:bg-gray-900 m-0 p-0 overflow-x-hidden">
         <!-- Wrapper -->
-        <div class="min-h-screen pb-12"> <!-- pb-12 กันไม่ให้เนื้อหาทับ footer -->
+        <div class="min-h-screen pb-12 flex flex-col"> <!-- pb-12 กันไม่ให้เนื้อหาทับ footer -->
             
             <!-- Navbar -->
             @include('layouts.navigation')
@@ -34,7 +34,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="mb-0 bg-white">
+            <main class="mb-0 bg-white flex-1 flex items-center">
                 {{ $slot }}
             </main>
         </div>
