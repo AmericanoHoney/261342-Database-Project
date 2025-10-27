@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -26,15 +27,33 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // ดึงข้อมูลที่ validated
+        $data = $request->validated();
+
+        // ตรวจสอบว่ามีการอัปโหลดรูปภาพหรือไม่
+        if ($request->hasFile('photo')) {
+            // ลบรูปเก่าถ้ามี
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);
+            }
+            // เก็บรูปใหม่
+            $data['photo'] = $request->file('photo')->store('profile_pics', 'public');
         }
 
-        $request->user()->save();
+        // อัปเดต user
+        $user->fill($data);
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // ถ้า email เปลี่ยน ให้ reset verification
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        // กลับมาที่หน้าเดิม พร้อมส่งข้อความ status
+        return redirect()->route('profile.edit')->with('status', 'Profile updated successfully!');
     }
 
     /**
