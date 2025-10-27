@@ -48,7 +48,7 @@
             {{-- Sort --}}
             <div class="relative">
                 <select name="sort"
-                    class="h-11 pl-4 pr-10 rounded-full text-sm border border-pink-600 text-pink-700 bg-white
+                    class="h-11 pl-4 pr-10 rounded-full text-sm border border-gray-300 bg-white
                         min-w-[200px] md:min-w-[230px]
                         focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-pink-600 appearance-none">
                     <option value="">Sort</option>
