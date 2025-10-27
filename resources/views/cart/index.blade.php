@@ -39,9 +39,9 @@
                 <td class="py-4 px-5 text-center">${{ number_format($item->product->price, 2) }}</td>
 
                 <td class="py-4 px-5 text-center">
-                  <div class="inline-flex items-center border border-pink-300 rounded-full bg-white shadow-sm">
+                  <div class=" items-center border-pink-300 rounded-full">
                     <button type="button"
-                            class="px-3 py-1 text-pink-600 font-bold hover:bg-pink-100 transition"
+                            class="px-3 py-1 text-pink-600 font-bold"
                             onclick="updateQuantity({{ $item->cart_id }}, {{ $item->product_id }}, -1)">−</button>
 
                     <span id="qty-{{ $item->cart_id }}-{{ $item->product_id }}"
@@ -50,7 +50,7 @@
                     </span>
 
                     <button type="button"
-                            class="px-3 py-1 text-pink-600 font-bold hover:bg-pink-100 transition"
+                            class="px-3 py-1 text-pink-600 font-bold "
                             onclick="updateQuantity({{ $item->cart_id }}, {{ $item->product_id }}, 1)">+</button>
                   </div>
                 </td>
