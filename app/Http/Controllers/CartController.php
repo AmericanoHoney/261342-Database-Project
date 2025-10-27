@@ -24,13 +24,10 @@ class CartController extends Controller
     {
         $quantity = max(1, (int) $request->input('quantity'));
 
-        // 🔍 ดึงสินค้ามาเพื่อตรวจสอบ stock
         $product = \App\Models\Product::find($product_id);
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
-
-        // ❌ ถ้าจำนวนที่ขอมากกว่าสต็อก
         if ($quantity > $product->stock) {
             return response()->json([
                 'error' => 'Not enough stock',
@@ -38,7 +35,6 @@ class CartController extends Controller
             ], 400);
         }
 
-        // ✅ อัปเดตจำนวนสินค้าในตะกร้า
         $updated = \App\Models\CartItem::where('cart_id', $cart_id)
             ->where('product_id', $product_id)
             ->update(['quantity' => $quantity]);
@@ -65,10 +61,6 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
 
-
-
-
-    // รับคำสั่ง “Add to cart”
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -105,8 +97,6 @@ class CartController extends Controller
             ]);
         }
 
-        $message = __('Product added to cart.');
-
         if ($finalQuantity <= $existingQuantity) {
             $message = __('You already have the maximum available quantity for this product in your cart.');
         } elseif ($finalQuantity < $desiredQuantity) {
@@ -116,4 +106,16 @@ class CartController extends Controller
 
         return redirect()->route('cart.index')->with('success', $message);
     }
+
+    public function count()
+    {
+        $count = 0;
+        if (auth()->check()) {
+            $count = \App\Models\CartItem::whereHas('cart', function ($q) {
+                $q->where('user_id', auth()->id());
+            })->sum('quantity');
+        }
+        return response()->json(['count' => $count]);
+    }
+
 }

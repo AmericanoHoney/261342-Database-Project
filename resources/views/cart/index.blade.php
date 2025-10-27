@@ -101,9 +101,9 @@
   </div>
 
   {{-- SweetAlert2 + JS --}}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-  async function updateQuantity(cartId, productId, change) {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    async function updateQuantity(cartId, productId, change) {
     const qty = document.getElementById(`qty-${cartId}-${productId}`);
     const subtotal = document.getElementById(`subtotal-${cartId}-${productId}`);
     const total = document.getElementById('cart-total');
@@ -112,83 +112,93 @@
 
     try {
         const res = await fetch(`/cart/update/${cartId}/${productId}`, {
-            method: 'POST',
-            headers: {
+        method: 'POST',
+        headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ quantity: newQty })
+        },
+        body: JSON.stringify({ quantity: newQty })
         });
 
         const data = await res.json();
 
         if (!res.ok) {
-            if (data.error === 'Not enough stock') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Stock not enough',
-                    text: `Available: ${data.available_stock}`,
-                    confirmButtonColor: '#B6487B'
-                });
-                return;
-                }
-            throw new Error();
+        if (data.error === 'Not enough stock') {
+            Swal.fire({
+            icon: 'warning',
+            title: 'Stock not enough',
+            text: `Available: ${data.available_stock}`,
+            confirmButtonColor: '#B6487B'
+            });
+            return;
+        }
+        throw new Error();
         }
 
-        // ✅ Update UI ถ้าอัปเดตสำเร็จ
         qty.textContent = data.quantity;
         subtotal.textContent = `$${(price * data.quantity).toFixed(2)}`;
 
         let sum = 0;
         document.querySelectorAll('[id^="subtotal-"]').forEach(el => {
-            sum += parseFloat(el.textContent.replace('$', '')) || 0;
+        sum += parseFloat(el.textContent.replace('$', '')) || 0;
         });
         total.textContent = `$${sum.toFixed(2)}`;
 
-        } catch {
-        Swal.fire('Error', 'Unable to update quantity', 'error');
+        if (typeof updateCartCount === 'function') {
+        await updateCartCount();
         }
 
-  }
+    } catch {
+        Swal.fire('Error', 'Unable to update quantity', 'error');
+    }
+    }
 
-  async function removeItem(cartId, productId) {
+    async function removeItem(cartId, productId) {
     Swal.fire({
-      title: 'Remove this item?',
-      text: 'Are you sure you want to delete this product?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#e85a8e',
-      cancelButtonColor: '#aaa',
-      confirmButtonText: 'Yes, remove it'
+        title: 'Remove this item?',
+        text: 'Are you sure you want to delete this product?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e85a8e',
+        cancelButtonColor: '#aaa',
+        confirmButtonText: 'Yes, remove it'
     }).then(async (result) => {
-      if (!result.isConfirmed) return;
+        if (!result.isConfirmed) return;
 
-      try {
+        try {
         const res = await fetch(`/cart/remove/${cartId}/${productId}`, {
-          method: 'DELETE',
-          headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+            method: 'DELETE',
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
         });
 
         if (!res.ok) throw new Error();
 
-        // ✅ ลบแถวสินค้าออกจาก DOM
         document.querySelector(`tr[data-item="${cartId}-${productId}"]`)?.remove();
 
-        // ✅ คำนวณราคารวมใหม่
         let sum = 0;
         document.querySelectorAll('[id^="subtotal-"]').forEach(el => {
-          sum += parseFloat(el.textContent.replace('$', '')) || 0;
+            sum += parseFloat(el.textContent.replace('$', '')) || 0;
         });
         document.getElementById('cart-total').textContent = `$${sum.toFixed(2)}`;
 
-        // ✅ ถ้าไม่มีสินค้าคงเหลือ reload เพื่อโชว์ข้อความ "empty"
+        if (typeof updateCartCount === 'function') {
+            await updateCartCount();
+        }
+
         if (sum === 0) location.reload();
 
-        Swal.fire('Removed!', 'Item removed successfully.', 'success');
-      } catch {
+        Swal.fire({
+        title: 'Removed!',
+        text: 'Item removed successfully.',
+        icon: 'success',
+        confirmButtonColor: '#B6487B',
+        });
+        } catch {
         Swal.fire('Error', 'Something went wrong', 'error');
-      }
+        }
     });
-  }
-  </script>
+    }
+
+    </script>
+
 </x-app-layout>

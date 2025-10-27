@@ -31,8 +31,9 @@
                     <img src="{{ asset('images/cart.png') }}" alt="Logo" class="w-7 h-7 inline-block align-middle">
 
                     <!-- จำนวนสินค้า (badge) -->
-                    <span class="absolute -top-1 -right-2 bg-pink-600 text-white text-xs font-semibold px-1.5 rounded-full">
-                        3
+                    <span id="cart-count"
+                            class="absolute -top-1 -right-2 bg-pink-600 text-white text-xs font-semibold px-1.5 rounded-full">
+                            {{ $cartCount ?? 0}}
                     </span>
                 </a>
 

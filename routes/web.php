@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::get('/cart/count', [App\Http\Controllers\CartController::class, 'count'])
+    ->name('cart.count');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
