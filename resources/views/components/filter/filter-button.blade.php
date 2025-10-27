@@ -43,7 +43,7 @@
     <button
         type="button"
         {{ $attributes->merge([
-            'class' => 'group inline-flex h-[42px] min-w-[170px] items-center justify-between gap-2.5 px-4 bg-white border border-[#B6487B] rounded-[12px] shadow-sm text-sm font-medium text-gray-900 hover:border-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#B6487B]',
+            'class' => 'group inline-flex h-[42px] min-w-[170px] items-center justify-between gap-2.5 px-4 bg-white border border-[#B6487B] rounded-[12px] shadow-sm text-sm font-medium text-gray-900 hover:border-[#8D2A5E] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#B6487B]',
         ]) }}
         @click="toggle()"
         :aria-expanded="open"
