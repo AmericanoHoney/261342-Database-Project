@@ -27,7 +27,7 @@ class CartItem extends Model
 
     public function subtotal()
     {
-        return $this->quantity * $this->product->price;
+        return $this->quantity * ($this->product->price ?? 0);
     }
 
     protected function setKeysForSaveQuery($query)

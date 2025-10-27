@@ -27,6 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/update/{cart_id}/{product_id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{cart_id}/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
+
+
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
