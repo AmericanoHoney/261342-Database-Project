@@ -33,7 +33,7 @@ class OrderController extends Controller
             'status' => $order->status,
             'order_date' => $order->order_date,
             'delivery_date' => $order->delivery_date,
-            'address' => $order->address,
+            'address' => $order->delivery_address,
             'subtotal' => $order->subtotal,
             'total_price' => $order->total_price,
             'discount_percent' => $discountPercent,
@@ -42,6 +42,7 @@ class OrderController extends Controller
             'details' => $order->details->map(function ($detail) {
                 return [
                     'product_name' => $detail->product->name,
+                    'image_url' => $detail->product->image_url,
                     'quantity' => $detail->quantity,
                     'unit_price' => $detail->price,
                     'subtotal' => $detail->quantity * $detail->price,
