@@ -46,10 +46,26 @@
         </div>
     </section>
 
+    <section class="pt-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Top Seller</h2>
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                @foreach ($products as $prd)
+                    <x-cards.product-card
+                        :image="$prd->image_url"
+                        :category="optional($prd->category)->name ?? 'Category'"
+                        :name="$prd->name"
+                        :price="$prd->price"
+                    />
+                @endforeach
+            </div>
+        </div>
+    </section>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
       new Swiper('#promo-swiper', {
-        slidesPerView: 3,
+        slidesPerView: 1,
         spaceBetween: 24,
         breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
         pagination: { el: '.swiper-pagination', clickable: true },

@@ -35,9 +35,9 @@ class PromotionSeeder extends Seeder
                 'active' => true,
             ],
             [
-                'name' => 'Flash Sale 50%',
-                'promotion_photo' => 'images/promotions/promo50.jpg',
-                'discount_percent' => 50,
+                'name' => 'Flash Sale 25%',
+                'promotion_photo' => 'images/promotions/promo25.jpg',
+                'discount_percent' => 25,
                 'active' => false,
             ],
         ];
