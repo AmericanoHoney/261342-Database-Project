@@ -48,12 +48,14 @@
         {{-- Product grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
             @forelse($products as $product)
-                <x-cards.product-card
-                    :image="asset($product->image_url)"
-                    :category="$product->category->name ?? 'Unknown'"
-                    :name="$product->name"
-                    :price="$product->price"
-                />
+                <a href="{{ route('detail', $product) }}" class="block focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-[40px]">
+                    <x-cards.product-card
+                        :image="asset($product->image_url)"
+                        :category="$product->category->name ?? 'Unknown'"
+                        :name="$product->name"
+                        :price="$product->price"
+                    />
+                </a>
             @empty
                 <p class="text-gray-500 col-span-full text-center">No products found.</p>
             @endforelse

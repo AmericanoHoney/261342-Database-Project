@@ -13,7 +13,7 @@
     $isInStock = (int) ($product->stock ?? 0) > 0;
     $badgeLabel = $isInStock ? __('In Stock') : __('Out of Stock');
     $maxQuantity = max(1, (int) ($product->stock ?? 1));
-    $favoriteButtonClasses = 'inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#B6487B] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
+    $favoriteButtonClasses = 'inline-flex h-14 w-14 items-center justify-center rounded-full border border-[#B6487B] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
     $favoriteButtonClasses .= $isFavorite ? ' bg-[#B6487B]/10 hover:bg-[#B6487B]/20' : ' hover:bg-[#B6487B]/10';
 @endphp
 
@@ -51,7 +51,7 @@
             }"
             class="flex flex-wrap items-center gap-4"
         >
-            <div class="inline-flex items-center gap-6 rounded-full bg-[#B6487B] px-7 py-3 text-white shadow-[0_20px_30px_rgba(182,72,123,0.25)]">
+            <div class="inline-flex h-14 items-center gap-6 rounded-full bg-[#B6487B] px-8 text-white shadow-[0_20px_30px_rgba(182,72,123,0.25)]">
                 <button
                     type="button"
                     @click="decrease()"
@@ -71,7 +71,7 @@
 
             <a
                 href="{{ route('cart') }}"
-                class="inline-flex items-center rounded-full bg-[#B6487B] px-9 py-3 text-sm font-semibold text-white shadow-[0_18px_35px_rgba(182,72,123,0.22)] transition hover:bg-[#9d3a68]"
+                class="inline-flex h-14 items-center rounded-full bg-[#B6487B] px-10 text-sm font-semibold text-white shadow-[0_18px_35px_rgba(182,72,123,0.22)] transition hover:bg-[#9d3a68]"
             >
                 {{ __('Add to cart') }}
             </a>
