@@ -1,6 +1,6 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-3xl text-[#3D3D3D] text-center leading-tight">
+    <h2 class="font-semibold text-3xl text-black text-center leading-tight">
       Order History
     </h2>
   </x-slot>
