@@ -1,9 +1,5 @@
 <x-app-layout>
     <style>
-        body, input, textarea, button, label {
-            font-family: 'Inria Serif', serif;
-        }
-        
         .profile-container {
             display: flex;
             flex-direction: column;
@@ -13,9 +9,8 @@
             width: 90%;
         }
         .profile-title {
-            font-family: 'Inria Serif', serif;
-            font-size: 48px;
-            font-weight: semi-bold;
+            font-size: 40px;
+            font-weight: bold;
             margin-bottom: 30px;
             text-align: center;
         }
@@ -25,8 +20,8 @@
             width: 100%;
         }
         .img-box {
-            width: 260px;
-            height: 340px;
+            width: 320px;
+            height: 400px;
             background: #e6e6e6;
             border: 1px solid #ccc;
             border-radius: 20px;
@@ -51,8 +46,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 10px !important; 
-            font-family: 'Inria Serif', serif;
-            font-size: 18px;
+            font-size: 16px;
             box-sizing: border-box;
         }
         .row {
