@@ -1,6 +1,6 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-3xl text-[#3D3D3D] text-center leading-tight">
+    <h2 class="font-semibold text-3xl text-[#000000] text-center leading-tight">
       Order Summary
     </h2>
   </x-slot>
@@ -9,7 +9,7 @@
     <div class="max-w-5xl mx-auto bg-white shadow-md rounded-2xl p-4 border border-[#E2E2E2]">
 
       {{-- ตารางสินค้า --}}
-      <table class="w-full border-collapse text-gray-700">
+      <table class="w-full border-collapse text-black">
         <thead>
           <tr class="bg-pink-600 text-white text-center">
             <th class="py-3 px-5 rounded-tl-2xl">Product</th>
@@ -19,7 +19,7 @@
         </thead>
         <tbody class="divide-y divide-[#E2E2E2]">
           @foreach ($cart->items as $item)
-            <tr class="hover:bg-pink-50 transition">
+            <tr>
               <td class="py-3 px-4 text-left">{{ $item->product->name }}</td>
               <td class="text-center">{{ $item->quantity }}</td>
               <td class="text-right">${{ number_format($item->subtotal(), 2) }}</td>
@@ -34,31 +34,31 @@
 
         <div class="grid grid-cols-2 gap-6">
           <div>
-            <label class="block text-gray-600 mb-1 text-sm font-medium">Delivery Date</label>
+            <label class="block text-black mb-1 text-sm font-medium">Delivery Date</label>
             <input type="date" name="delivery_date"
-              class="w-full border border-pink-200 rounded-lg p-2.5 bg-[#fffafc] focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition"
+              class="w-full border border-pink-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition"
               required>
           </div>
 
           <div>
-            <label class="block text-gray-600 mb-1 text-sm font-medium">Delivery Time</label>
+            <label class="block text-black mb-1 text-sm font-medium">Delivery Time</label>
             <input type="time" name="delivery_time"
-              class="w-full border border-pink-200 rounded-lg p-2.5 bg-[#fffafc] focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition"
+              class="w-full border border-pink-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition"
               required>
           </div>
         </div>
 
         <div>
-          <label class="block text-gray-600 mb-1 text-sm font-medium">Address</label>
+          <label class="block text-black mb-1 text-sm font-medium">Address</label>
           <textarea name="address" rows="2"
-            class="w-full border border-pink-200 rounded-lg p-2.5 bg-[#fffafc] focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition"
+            class="w-full border border-pink-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition"
             required></textarea>
         </div>
 
         <div>
-          <label class="block text-gray-600 mb-1 text-sm font-medium">Promotion</label>
+          <label class="block text-black mb-1 text-sm font-medium">Promotion</label>
           <select name="promotion_id"
-            class="w-full border border-pink-200 rounded-lg p-2.5 bg-[#fffafc] focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition">
+            class="w-full border border-pink-200 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-pink-300 focus:border-pink-400 transition">
             <option value="">None</option>
             @foreach ($promotions as $promo)
               <option value="{{ $promo->promotion_id }}">
@@ -78,7 +78,7 @@
         {{-- ปุ่มยืนยัน + กลับ --}}
         <div class="flex justify-end gap-4 mt-8">
           <a href="{{ route('cart.index') }}"
-            class="px-6 py-2.5 rounded-full font-semibold border border-pink-400 text-pink-600 hover:bg-pink-50 hover:shadow transition">
+            class="px-6 py-2.5 rounded-full font-semibold border border-pink-400 text-pink-600 hover:bg-pink-700 hover:shadow transition">
             ← Back to Cart
           </a>
 
@@ -124,7 +124,7 @@
         showCancelButton: true,
         confirmButtonColor: '#B6487B',
         cancelButtonColor: '#bbb',
-        background: '#fffafc',
+        background: '#ffffff',
         border: '1px solid #f4c2d7',
         customClass: {
           popup: 'rounded-2xl shadow-lg',

@@ -1,18 +1,18 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-3xl text-[#3D3D3D] text-center leading-tight">
+    <h2 class="font-semibold text-3xl text-[#000000] text-center leading-tight">
       My Shopping Cart
     </h2>
   </x-slot>
 
-  <div class="bg-[#F7F6F8] min-h-screen">
+  <div class="bg-white min-h-screen">
     <div class="max-w-5xl mx-auto bg-white shadow-md rounded-2xl p-4 border border-[#E2E2E2]">
       @if ($cart->items->isEmpty())
         <div class="text-center py-20 text-gray-500 italic text-lg">
           Your cart is empty 💔
         </div>
       @else
-        <table class="w-full border-collapse text-gray-700">
+        <table class="w-full border-collapse text-black">
           <thead>
             <tr class="bg-pink-600 text-white text-center">
               <th class="py-3 px-5 rounded-tl-lg">Product</th>
@@ -96,32 +96,39 @@
     const price = parseFloat(subtotal.dataset.price);
 
     try {
-      const res = await fetch(`/cart/update/${cartId}/${productId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ quantity: newQty })
-      });
+        const res = await fetch(`/cart/update/${cartId}/${productId}`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ quantity: newQty })
+        });
 
-      if (!res.ok) throw new Error();
-      const data = await res.json();
+        const data = await res.json();
 
-      // ✅ Update quantity + subtotal
-      qty.textContent = data.quantity;
-      subtotal.textContent = `$${(price * data.quantity).toFixed(2)}`;
+        if (!res.ok) {
+            if (data.error === 'Not enough stock') {
+            Swal.fire('⚠️ Stock not enough', `Available: ${data.available_stock}`, 'warning');
+            return;
+            }
+            throw new Error();
+        }
 
-      // ✅ Update total (sum of all subtotals)
-      let sum = 0;
-      document.querySelectorAll('[id^="subtotal-"]').forEach(el => {
-        sum += parseFloat(el.textContent.replace('$', '')) || 0;
-      });
-      total.textContent = `$${sum.toFixed(2)}`;
+        // ✅ Update UI ถ้าอัปเดตสำเร็จ
+        qty.textContent = data.quantity;
+        subtotal.textContent = `$${(price * data.quantity).toFixed(2)}`;
 
-    } catch {
-      Swal.fire('Error', 'Unable to update quantity', 'error');
-    }
+        let sum = 0;
+        document.querySelectorAll('[id^="subtotal-"]').forEach(el => {
+            sum += parseFloat(el.textContent.replace('$', '')) || 0;
+        });
+        total.textContent = `$${sum.toFixed(2)}`;
+
+        } catch {
+        Swal.fire('Error', 'Unable to update quantity', 'error');
+        }
+
   }
 
   async function removeItem(cartId, productId) {

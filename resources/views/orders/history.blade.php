@@ -109,7 +109,7 @@
             </h2>
 
             <div style="
-              background:#fff6f8;
+              background:#ffffff;
               border:1px solid #fbd3de;
               border-radius:12px;
               padding:14px 18px;
@@ -158,7 +158,7 @@
         `,
         confirmButtonText: 'Close',
         confirmButtonColor: '#B6487B',
-        background: '#fffdfd',
+        background: '#ffffff',
         width: 640,
         padding: '1.5rem',
         customClass: {

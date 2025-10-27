@@ -22,6 +22,21 @@ class CartController extends Controller
     {
         $quantity = max(1, (int) $request->input('quantity'));
 
+        // 🔍 ดึงสินค้ามาเพื่อตรวจสอบ stock
+        $product = \App\Models\Product::find($product_id);
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        // ❌ ถ้าจำนวนที่ขอมากกว่าสต็อก
+        if ($quantity > $product->stock) {
+            return response()->json([
+                'error' => 'Not enough stock',
+                'available_stock' => $product->stock,
+            ], 400);
+        }
+
+        // ✅ อัปเดตจำนวนสินค้าในตะกร้า
         $updated = \App\Models\CartItem::where('cart_id', $cart_id)
             ->where('product_id', $product_id)
             ->update(['quantity' => $quantity]);
@@ -32,6 +47,7 @@ class CartController extends Controller
 
         return response()->json(['success' => true, 'quantity' => $quantity]);
     }
+
 
 
    public function remove($cart_id, $product_id)
