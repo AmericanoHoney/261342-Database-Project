@@ -10,27 +10,18 @@ use App\Models\Category;
 class ProductController extends Controller
 {
     public function index(Request $request)
-    public function show(Product $product)
     {
         $query = Product::with('category');
-        $product->loadMissing('category');
 
-        // Search by keyword (name or description)
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('description', 'like', "%{$search}%");
             });
         }
-        $userId = auth()->id();
-
-        // Filter by category
         if ($categoryId = $request->get('category')) {
             $query->where('category_id', $categoryId);
         }
-        $isFavorited = false;
-
-        // Sort options
         switch ($request->get('sort')) {
             case 'price_asc':
                 $query->orderBy('price', 'asc');
@@ -46,16 +37,26 @@ class ProductController extends Controller
                 break;
             default:
                 $query->latest('updated_at');
-        if ($userId) {
-            $isFavorited = Favourite::where('user_id', $userId)
-                ->where('product_id', $product->getKey())
-                ->exists();
+                break;
         }
 
         $products = $query->paginate(12)->withQueryString();
         $categories = Category::orderBy('name')->get();
 
         return view('products.index', compact('products', 'categories'));
+    }
+
+    public function show(Product $product)
+    {
+        $product->loadMissing('category');
+
+        $isFavorited = false;
+        if ($userId = auth()->id()) {
+            $isFavorited = Favourite::where('user_id', $userId)
+                ->where('product_id', $product->getKey())
+                ->exists();
+        }
+
         return view('detail.index', [
             'product' => $product,
             'isFavorited' => $isFavorited,
