@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -50,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/favorites/{product}', [FavouriteController::class, 'destroy'])->name('favorites.destroy');
     Route::get('/history', fn() => view('history.index'))->name('history');
     Route::get('/cart', fn() => view('cart.index'))->name('cart');
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 });
 
 require __DIR__.'/auth.php';

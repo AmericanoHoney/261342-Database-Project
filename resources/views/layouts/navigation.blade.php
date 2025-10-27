@@ -16,8 +16,8 @@
                    class="font-medium {{ request()->routeIs('dashboard') ? 'text-pink-600' : 'text-gray-400 hover:text-pink-600' }}">
                     Homepage
                 </a>
-                <a href="{{ route('products') }}"
-                   class="font-medium {{ request()->routeIs('products') ? 'text-pink-600' : 'text-gray-400 hover:text-pink-600' }}">
+                <a href="{{ route('products.index') }}"
+                    class="font-medium {{ request()->routeIs('products.index') ? 'text-pink-600' : 'text-gray-400 hover:text-pink-600' }}">
                     Products
                 </a>
             </div>
