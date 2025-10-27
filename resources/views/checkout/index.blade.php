@@ -106,29 +106,30 @@
       const total = subtotal - discount;
 
       Swal.fire({
-        title: '<span style="color:#e85a8e;font-weight:600;">Confirm Your Order 🌸</span>',
+        title: '<span style="color:#B6487B;font-weight:600;">Confirm Your Order 🌸</span>',
         html: `
           <div style="font-size:15px;text-align:left;line-height:1.6;color:#444;">
             <p><b>Subtotal:</b> $${subtotal.toFixed(2)}</p>
             <p><b>Discount:</b> -$${discount.toFixed(2)} (${promo ? promo.name : 'None'})</p>
             <hr style="margin:10px 0;border-color:#f4c2d7;">
             <p style="font-size:16px"><b>Total:</b>
-              <span style="color:#ea5b91;font-weight:bold">$${total.toFixed(2)}</span>
+              <span style="color:#B6487B;font-weight:bold">$${total.toFixed(2)}</span>
             </p>
             <p style="color:#999;font-size:13px;margin-top:10px;">Confirm and place your order?</p>
           </div>
         `,
         icon: 'info',
-        confirmButtonText: 'Yes, Confirm 🌷',
+        confirmButtonText: 'Yes, Confirm',
         cancelButtonText: 'Cancel',
         showCancelButton: true,
-        confirmButtonColor: '#ea5b91',
+        confirmButtonColor: '#B6487B',
         cancelButtonColor: '#bbb',
         background: '#fffafc',
         border: '1px solid #f4c2d7',
         customClass: {
           popup: 'rounded-2xl shadow-lg',
-          confirmButton: 'px-5 py-2 font-semibold rounded-full'
+          confirmButton: 'px-5 py-2 font-semibold rounded-full',
+          cancelButton: 'px-5 py-2 font-semibold rounded-full',
         }
       }).then((result) => {
         if (result.isConfirmed) form.submit();
