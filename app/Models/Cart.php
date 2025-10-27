@@ -10,7 +10,7 @@ class Cart extends Model
     use HasFactory;
 
     protected $primaryKey = 'cart_id';
-    protected $fillable = ['customer_id'];
+    protected $fillable = ['user_id'];
 
     public function user()
     {
@@ -20,5 +20,12 @@ class Cart extends Model
     public function items()
     {
         return $this->hasMany(CartItem::class, 'cart_id');
+    }
+
+    public function total()
+    {
+        return $this->items->sum(function ($item) {
+        return $item->subtotal();
+         });
     }
 }
