@@ -10,15 +10,21 @@
     $description = $product->description
         ?? __('No description available for this product yet. Check back soon for more details.');
     $price = number_format((float) $product->price, 2);
-    $isInStock = (int) ($product->stock ?? 0) > 0;
+    $availableStock = max(0, (int) ($product->stock ?? 0));
+    $isInStock = $availableStock > 0;
     $badgeLabel = $isInStock ? __('In Stock') : __('Out of Stock');
-    $maxQuantity = max(1, (int) ($product->stock ?? 1));
+    $badgeClasses = $isInStock
+        ? 'inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1 text-xs font-semibold text-emerald-600'
+        : 'inline-flex items-center rounded-full border border-[#DF0404] bg-[#FFC5C5] px-4 py-1 text-xs font-semibold text-[#DF0404]';
+    $maxQuantity = $availableStock;
+    $minQuantity = $isInStock ? 1 : 0;
+    $initialQuantity = $isInStock ? 1 : 0;
     $favoriteButtonClasses = 'inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#B6487B] text-white transition hover:bg-[#9d3a68] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
 @endphp
 
 <div {{ $attributes->class('space-y-8') }}>
     <div class="flex flex-wrap items-center gap-3">
-        <span class="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1 text-xs font-semibold text-emerald-600">
+        <span class="{{ $badgeClasses }}">
             {{ $badgeLabel }}
         </span>
         <span class="text-sm font-medium text-gray-400">{{ $categoryName }}</span>
@@ -36,14 +42,14 @@
     <div class="pt-4">
         <div
             x-data="{
-                quantity: 1,
+                quantity: {{ $initialQuantity }},
                 increase() {
                     if (this.quantity < {{ $maxQuantity }}) {
                         this.quantity++;
                     }
                 },
                 decrease() {
-                    if (this.quantity > 1) {
+                    if (this.quantity > {{ $minQuantity }}) {
                         this.quantity--;
                     }
                 }

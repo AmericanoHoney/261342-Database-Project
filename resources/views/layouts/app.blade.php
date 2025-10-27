@@ -17,7 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
-    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 m-0 p-0 overflow-x-hidden">
+    <body class="font-sans antialiased bg-white dark:bg-gray-900 m-0 p-0 overflow-x-hidden">
         <!-- Wrapper -->
         <div class="min-h-screen pb-12"> <!-- pb-12 กันไม่ให้เนื้อหาทับ footer -->
             

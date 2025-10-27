@@ -51,12 +51,17 @@
             <h2 class="text-3xl font-semibold text-gray-900 mb-6">Top Seller</h2>
             <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 @foreach ($products as $prd)
-                    <x-cards.product-card
-                        :image="$prd->image_url"
-                        :category="optional($prd->category)->name ?? 'Category'"
-                        :name="$prd->name"
-                        :price="$prd->price"
-                    />
+                    <a
+                        href="{{ route('detail', $prd) }}"
+                        class="block focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-[40px]"
+                    >
+                        <x-cards.product-card
+                            :image="asset($prd->image_url)"
+                            :category="optional($prd->category)->name ?? 'Category'"
+                            :name="$prd->name"
+                            :price="$prd->price"
+                        />
+                    </a>
                 @endforeach
             </div>
         </div>

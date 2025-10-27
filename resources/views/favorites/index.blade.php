@@ -31,6 +31,7 @@
                         :category="$product->category?->name ?? 'Uncategorized'"
                         :name="$product->name"
                         :price="$product->price"
+                        :href="route('detail', $product)"
                     >
                         <x-slot name="favoriteAction">
                             <x-dialog.confirm-delete
