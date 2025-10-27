@@ -12,9 +12,9 @@
       <table class="w-full border-collapse text-black">
         <thead>
           <tr class="bg-pink-600 text-white text-center">
-            <th class="py-3 px-5 rounded-tl-2xl">Product</th>
+            <th class="py-3 px-5 rounded-tl-lg">Product</th>
             <th class="py-3 px-5">Qty</th>
-            <th class="py-3 px-5 rounded-tr-2xl">Price</th>
+            <th class="py-3 px-5 rounded-tr-lg">Price</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#E2E2E2]">
