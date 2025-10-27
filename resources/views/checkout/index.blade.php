@@ -12,9 +12,9 @@
       <table class="w-full border-collapse text-black">
         <thead>
           <tr class="bg-pink-600 text-white text-center">
-            <th class="py-3 px-5 rounded-tl-2xl">Product</th>
+            <th class="py-3 px-5 rounded-tl-lg">Product</th>
             <th class="py-3 px-5">Qty</th>
-            <th class="py-3 px-5 rounded-tr-2xl">Price</th>
+            <th class="py-3 px-5 rounded-tr-lg">Price</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#E2E2E2]">
@@ -93,30 +93,67 @@
 
   {{-- SweetAlert2 Popup --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
+    <script>
     const subtotal = {{ $subtotal }};
     const promotions = @json($promotions);
 
-    document.getElementById('confirmCheckout').addEventListener('click', () => {
-      const form = document.getElementById('checkout-form');
-      const selectedPromoId = form.promotion_id.value;
-      const promo = promotions.find(p => p.promotion_id == selectedPromoId);
-      const discountRate = promo ? promo.discount_percent / 100 : 0;
-      const discount = subtotal * discountRate;
-      const total = subtotal - discount;
+    const dateInput = document.querySelector('input[name="delivery_date"]');
+    const timeInput = document.querySelector('input[name="delivery_time"]');
 
-      Swal.fire({
+    // 🕐 ตั้ง min date = วันนี้
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+
+    document.getElementById('confirmCheckout').addEventListener('click', () => {
+        const form = document.getElementById('checkout-form');
+        const date = form.delivery_date.value;
+        const time = form.delivery_time.value;
+        const address = form.address.value.trim();
+
+        // ✅ ตรวจว่ากรอกครบหรือยัง
+        if (!date || !time || !address) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Information',
+            text: 'Please fill in all required fields before confirming your order.',
+            confirmButtonColor: '#B6487B'
+        });
+        return;
+        }
+
+        // 🕓 ตรวจวันเวลาว่าไม่ย้อนหลัง
+        const selectedDateTime = new Date(`${date}T${time}`);
+        const now = new Date();
+        if (selectedDateTime < now) {
+        Swal.fire({
+            icon: 'error',
+            title: '⏰ Invalid Date/Time',
+            text: 'You cannot select a past date or time.',
+            confirmButtonColor: '#B6487B'
+        });
+        return;
+        }
+
+        // ✅ คำนวณส่วนลด
+        const selectedPromoId = form.promotion_id.value;
+        const promo = promotions.find(p => p.promotion_id == selectedPromoId);
+        const discountRate = promo ? promo.discount_percent / 100 : 0;
+        const discount = subtotal * discountRate;
+        const total = subtotal - discount;
+
+        // ✅ แสดง popup ยืนยัน
+        Swal.fire({
         title: '<span style="color:#B6487B;font-weight:600;">Confirm Your Order 🌸</span>',
         html: `
-          <div style="font-size:15px;text-align:left;line-height:1.6;color:#444;">
+            <div style="font-size:15px;text-align:left;line-height:1.6;color:#444;">
             <p><b>Subtotal:</b> $${subtotal.toFixed(2)}</p>
             <p><b>Discount:</b> -$${discount.toFixed(2)} (${promo ? promo.name : 'None'})</p>
             <hr style="margin:10px 0;border-color:#f4c2d7;">
             <p style="font-size:16px"><b>Total:</b>
-              <span style="color:#B6487B;font-weight:bold">$${total.toFixed(2)}</span>
+                <span style="color:#B6487B;font-weight:bold">$${total.toFixed(2)}</span>
             </p>
             <p style="color:#999;font-size:13px;margin-top:10px;">Confirm and place your order?</p>
-          </div>
+            </div>
         `,
         icon: 'info',
         confirmButtonText: 'Yes, Confirm',
@@ -127,13 +164,14 @@
         background: '#ffffff',
         border: '1px solid #f4c2d7',
         customClass: {
-          popup: 'rounded-2xl shadow-lg',
-          confirmButton: 'px-5 py-2 font-semibold rounded-full',
-          cancelButton: 'px-5 py-2 font-semibold rounded-full',
+            popup: 'rounded-2xl shadow-lg',
+            confirmButton: 'px-5 py-2 font-semibold rounded-full',
+            cancelButton: 'px-5 py-2 font-semibold rounded-full',
         }
-      }).then((result) => {
+        }).then((result) => {
         if (result.isConfirmed) form.submit();
-      });
+        });
     });
-  </script>
+    </script>
+
 </x-app-layout>

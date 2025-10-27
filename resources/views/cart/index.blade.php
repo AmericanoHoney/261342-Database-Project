@@ -6,7 +6,7 @@
   </x-slot>
 
   <div class="bg-white min-h-screen">
-    <div class="max-w-5xl mx-auto space-y-4 py-6">
+    <div class="max-w-5xl mx-auto space-y-4">
             @if (session('success'))
                 <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-emerald-700">
                     {{ session('success') }}
@@ -32,7 +32,7 @@
               <th class="py-3 px-5">Price</th>
               <th class="py-3 px-5">Quantity</th>
               <th class="py-3 px-5">Subtotal</th>
-              <th class="py-3 px-5 rounded-tr-lg">Action</th>
+              <th class="py-3 px-5 rounded-tr-lg">Remove</th>
             </tr>
           </thead>
 
@@ -78,7 +78,7 @@
                 <td class="py-4 px-5 text-center">
                   <button class="text-red-500 hover:text-red-700 font-semibold"
                           onclick="removeItem({{ $item->cart_id }}, {{ $item->product_id }})">
-                    Remove
+                    🗑️
                   </button>
                 </td>
               </tr>
@@ -124,9 +124,14 @@
 
         if (!res.ok) {
             if (data.error === 'Not enough stock') {
-            Swal.fire('⚠️ Stock not enough', `Available: ${data.available_stock}`, 'warning');
-            return;
-            }
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Stock not enough',
+                    text: `Available: ${data.available_stock}`,
+                    confirmButtonColor: '#B6487B'
+                });
+                return;
+                }
             throw new Error();
         }
 
