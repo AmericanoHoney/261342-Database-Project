@@ -31,7 +31,7 @@
                     class="h-11 pl-4 pr-10 rounded-full text-sm border border-gray-300 bg-white
                         min-w-[190px] md:min-w-[220px]
                         focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-pink-600 appearance-none">
-                    <option value="" {{ request()->filled('category') ? '' : 'selected' }}>Flower Bouquets</option>
+                    <option value="" {{ request()->filled('category') ? '' : 'selected' }}>Category</option>
                     @foreach($categories as $cat)
                         <option value="{{ $cat->category_id }}"
                             {{ (string)request('category') === (string)$cat->category_id ? 'selected' : '' }}>
@@ -76,10 +76,12 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @forelse($products as $product)
                 <x-cards.product-card
-                    :image="asset($product->image_url)"
+                    :image="$product->image_url"
                     :category="$product->category->name ?? 'Unknown'"
                     :name="$product->name"
                     :price="$product->price"
+                    :product-id="$product->product_id"
+                    :is-favorited="(bool) ($product->is_favorited ?? false)"
                 />
             @empty
                 <p class="text-gray-500 col-span-full text-center">No products found.</p>
