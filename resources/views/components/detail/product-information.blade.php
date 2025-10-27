@@ -13,7 +13,7 @@
     $isInStock = (int) ($product->stock ?? 0) > 0;
     $badgeLabel = $isInStock ? __('In Stock') : __('Out of Stock');
     $maxQuantity = max(1, (int) ($product->stock ?? 1));
-    $favoriteButtonClasses = 'inline-flex h-10 w-10 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
+    $favoriteButtonClasses = 'inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#B6487B] text-white transition hover:bg-[#9d3a68] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
 @endphp
 
 <div {{ $attributes->class('space-y-8') }}>
@@ -48,21 +48,21 @@
                     }
                 }
             }"
-            class="flex flex-wrap items-center gap-4"
+            class="flex flex-wrap items-center gap-6"
         >
-            <div class="inline-flex h-[60px] w-[171px] items-center justify-center gap-4 rounded-full bg-[#B6487B] px-6 text-white shadow-[0_20px_30px_rgba(182,72,123,0.25)]">
+            <div class="inline-flex h-14 items-center gap-6 rounded-full bg-[#B6487B] px-6 text-white">
                 <button
                     type="button"
                     @click="decrease()"
-                    class="text-lg font-semibold transition hover:text-white/80"
+                    class="inline-flex h-10 w-10 items-center justify-center text-2xl font-light leading-none transition hover:text-white/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#B6487B]"
                 >
                     &minus;
                 </button>
-                <span class="w-8 text-center text-lg font-semibold" x-text="quantity"></span>
+                <span class="min-w-[24px] text-center text-lg font-semibold" x-text="quantity"></span>
                 <button
                     type="button"
                     @click="increase()"
-                    class="text-lg font-semibold transition hover:text-white/80"
+                    class="inline-flex h-10 w-10 items-center justify-center text-2xl font-light leading-none transition hover:text-white/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#B6487B]"
                 >
                     +
                 </button>
@@ -74,7 +74,7 @@
                 <input type="hidden" name="quantity" :value="quantity">
                 <button
                     type="submit"
-                    class="inline-flex h-[60px] w-[171px] items-center justify-center rounded-full bg-[#B6487B] px-8 text-sm font-semibold text-white shadow-[0_18px_35px_rgba(182,72,123,0.22)] transition hover:bg-[#9d3a68] {{ $isInStock ? '' : 'opacity-60 cursor-not-allowed hover:bg-[#B6487B]' }}"
+                    class="inline-flex h-14 min-w-[200px] items-center justify-center rounded-full bg-[#B6487B] px-10 text-base font-semibold text-white transition hover:bg-[#9d3a68] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2 {{ $isInStock ? '' : 'cursor-not-allowed opacity-60 hover:bg-[#B6487B]' }}"
                     @if (!$isInStock) disabled @endif
                 >
                     {{ $isInStock ? __('Add to cart') : __('Out of stock') }}
@@ -90,7 +90,9 @@
                         title="{{ __('Add to favorites') }}"
                         aria-label="{{ __('Add to favorites') }}"
                     >
-                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-10 w-10">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M21 8.25c0 4.5-5.25 7.5-9 12-3.75-4.5-9-7.5-9-12A5.25 5.25 0 0 1 7.5 3a5.235 5.235 0 0 1 4.5 2.25A5.235 5.235 0 0 1 16.5 3 5.25 5.25 0 0 1 21 8.25Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </button>
                 </form>
             @elseif ($removeFavoriteAction)
@@ -103,7 +105,9 @@
                         title="{{ __('Remove from favorites') }}"
                         aria-label="{{ __('Remove from favorites') }}"
                     >
-                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-10 w-10">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M21 8.25c0 4.5-5.25 7.5-9 12-3.75-4.5-9-7.5-9-12A5.25 5.25 0 0 1 7.5 3a5.235 5.235 0 0 1 4.5 2.25A5.235 5.235 0 0 1 16.5 3 5.25 5.25 0 0 1 21 8.25Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </button>
                 </form>
             @endif
