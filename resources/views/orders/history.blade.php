@@ -54,104 +54,115 @@
 
     {{-- SweetAlert2 Popup --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-async function showOrderDetails(orderId) {
-  try {
-    const response = await fetch(`/orders/${orderId}`);
-    const order = await response.json();
+      <script>
+      async function showOrderDetails(orderId) {
+        try {
+          const response = await fetch(`/orders/${orderId}`);
+          const order = await response.json();
 
-    const fmt = (v) => Number(v ?? 0).toFixed(2);
-    const orderDate = new Date(order.order_date).toLocaleString('th-TH', {
-      day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
-    const deliveryDate = order.delivery_date
-      ? new Date(order.delivery_date).toLocaleDateString('th-TH')
-      : '-';
+          const fmt = (v) => Number(v ?? 0).toFixed(2);
+          const orderDate = new Date(order.order_date).toLocaleString('en-US', {
+            day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+          const deliveryDate = order.delivery_date
+            ? new Date(order.delivery_date).toLocaleString('en-US', {
+                day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+              })
+            : '-';
 
-    const promoText = order.promotions?.length
-      ? order.promotions.map(p => `${p.name} (${p.discount_percent}% off)`).join(', ')
-      : 'No Promotion Applied';
+          const promoText = order.promotions?.length
+            ? order.promotions.map(p => `${p.name} (${p.discount_percent}% off)`).join(', ')
+            : 'No Promotion Applied';
 
-    const productRows = order.details.map(d => `
-      <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 0;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <img src="${d.image_url ?? '/images/default-product.png'}"
-               style="width:42px;height:42px;border-radius:8px;border:1px solid #eee;object-fit:cover;">
-          <div>
-            <div style="font-weight:500;font-size:0.9rem;">${d.product_name}</div>
-            <div style="font-size:0.8rem;color:#888;">x${d.quantity} • $${fmt(d.unit_price)}</div>
-          </div>
-        </div>
-        <div style="font-weight:500;font-size:0.9rem;color:#444;">$${fmt(d.subtotal)}</div>
-      </div>
-    `).join('');
-
-    Swal.fire({
-      html: `
-        <div style="font-family:'Poppins','Kanit',sans-serif;font-size:0.9rem;color:#333;text-align:left;max-width:580px;">
-          <h2 style="text-align:center;margin-bottom:10px;color:#c45b7c;font-weight:600;font-size:1.3rem;">
-            Order Details
-          </h2>
-
-          <div style="line-height:1.4;margin-bottom:10px;">
-            <p><b>Order ID:</b> #${order.order_id}</p>
-            <p><b>Status:</b> ${order.status}</p>
-            <p><b>Order Date:</b> ${orderDate}</p>
-            <p><b>Delivery Date:</b> ${deliveryDate}</p>
-            <p><b>Address:</b> ${order.address || '-'}</p>
-            <p><b>Note:</b> ${order.note || '-'}</p>
-          </div>
-
-          <hr style="border-color:#f2c8d5;margin:8px 0;">
-
-          <div>${productRows}</div>
-
-          <hr style="border-color:#f2c8d5;margin:8px 0;">
-
-          <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin:3px 0;">
-            <span>Items</span><span>${order.details.length}</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin:3px 0;">
-            <span>Subtotal</span><span>$${fmt(order.subtotal)}</span>
+          const productRows = order.details.map(d => `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 0;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <img src="${d.image_url ?? '/images/default-product.png'}"
+                    style="width:45px;height:45px;border-radius:10px;border:1px solid #f5b7c2;object-fit:cover;">
+                <div>
+                  <div style="font-weight:600;font-size:0.9rem;color:#444;">${d.product_name}</div>
+                  <div style="font-size:0.8rem;color:#999;">x${d.quantity} • $${fmt(d.unit_price)}</div>
+                </div>
+              </div>
+              <div style="font-weight:500;font-size:0.9rem;color:#444;">$${fmt(d.subtotal)}</div>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin:3px 0;color:#888;">
-            <span>Discount</span>
-            <span>${order.discount_percent > 0 
-                ? `-${order.discount_percent}% ($${fmt(order.discount_amount)})` 
-                : '$0.00'}</span>
-            </div>
+          `).join('');
 
-            <hr style="border-color:#f2c8d5;margin:8px 0;">
+          Swal.fire({
+            html: `
+              <div style="font-family:'Poppins','Kanit',sans-serif;color:#333;text-align:left;max-width:600px;">
+                <h2 style="text-align:center;margin-bottom:12px;color:#e85a8e;font-weight:700;font-size:1.4rem;">
+                  Order Details
+                </h2>
 
-            <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:600;">
-            <span>Total</span><span style="color:#c45b7c;">$${fmt(order.final_total)}</span>
-            </div>
+                <div style="
+                  background:#fff6f8;
+                  border:1px solid #fbd3de;
+                  border-radius:12px;
+                  padding:14px 18px;
+                  margin-bottom:14px;
+                  line-height:1.6;
+                ">
+                  <p style="font-size:0.9rem;margin:2px 0;"><b>Order ID:</b> #${order.order_id}</p>
+                  <p style="font-size:0.9rem;margin:2px 0;"><b>Status:</b> ${order.status}</p>
+                  <p style="font-size:0.9rem;margin:2px 0;"><b>Order Date:</b> ${orderDate}</p>
+                  <p style="font-size:0.9rem;margin:2px 0;"><b>Delivery Date:</b> ${deliveryDate}</p>
+                  <p style="font-size:0.9rem;margin:2px 0;"><b>Address:</b> ${order.address || '-'}</p>
+                  <p style="font-size:0.9rem;margin:2px 0;"><b>Note:</b> ${order.note || '-'}</p>
+                </div>
 
 
-          <div style="margin-top:5px;font-size:0.8rem;color:#999;">
-            ${promoText}
-          </div>
-        </div>
-      `,
-      confirmButtonText: 'Close',
-      confirmButtonColor: '#e85a8e',
-      width: 600,
-      background: '#fffdfd',
-      showClass: { popup: 'animate__animated animate__fadeInUp animate__faster' },
-      hideClass: { popup: 'animate__animated animate__fadeOutDown animate__faster' },
-    });
-  } catch (error) {
-    console.error(error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'ไม่สามารถโหลดรายละเอียดคำสั่งซื้อได้ค่ะ 💔',
-      confirmButtonColor: '#e85a8e',
-    });
-  }
-}
-</script>
+                <div style="border:1px solid #fbd3de;border-radius:12px;padding:10px 14px;background:#fff;">
+                  ${productRows}
+                </div>
 
+                <div style="margin-top:10px;border-top:1px solid #f2c8d5;padding-top:8px;">
+                  <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin:3px 0;">
+                    <span>Items</span><span>${order.details.length}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin:3px 0;">
+                    <span>Subtotal</span><span>$${fmt(order.subtotal)}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin:3px 0;color:#999;">
+                    <span>Discount</span>
+                    <span>${order.discount_percent > 0 
+                        ? `-${order.discount_percent}% ($${fmt(order.final_total - order.subtotal)})` 
+                        : '$0.00'}</span>
+                  </div>
+                  <hr style="border-color:#fbd3de;margin:6px 0;">
+                  <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:600;">
+                    <span>Total</span><span style="color:#e85a8e;">$${fmt(order.final_total)}</span>
+                  </div>
+                </div>
+
+                <div style="margin-top:6px;font-size:0.8rem;color:#888;text-align:center;">
+                  ${promoText}
+                </div>
+              </div>
+            `,
+            confirmButtonText: 'Close',
+            confirmButtonColor: '#e85a8e',
+            background: '#fffdfd',
+            width: 640,
+            padding: '1.5rem',
+            customClass: {
+              popup: 'rounded-2xl shadow-md border border-pink-200',
+              confirmButton: 'text-white font-semibold px-5 py-2 rounded-full hover:opacity-90 transition'
+            },
+            showClass: { popup: 'animate__animated animate__fadeInUp animate__faster' },
+            hideClass: { popup: 'animate__animated animate__fadeOutDown animate__faster' },
+          });
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Unable to load order details 💔',
+            confirmButtonColor: '#e85a8e',
+          });
+        }
+      }
+      </script>
 
 
 
