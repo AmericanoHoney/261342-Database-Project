@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -21,8 +22,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    
-    Route::get('/products', fn() => view('products.index'))->name('products');
     Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
     
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -33,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 });
 
 require __DIR__.'/auth.php';
