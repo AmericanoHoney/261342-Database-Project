@@ -11,43 +11,48 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class FavouriteController extends Controller
-{
+{   // ฟังก์ชันสำหรับการแสดงรายการโปรดของผู้ใช้
     public function index(): View
     {
         $userId = Auth::id();
 
         abort_unless($userId, 401);
 
+        // ดึงรายการโปรดทั้งหมดของผู้ใช้ โดยจะโหลดข้อมูลสินค้าที่เกี่ยวข้อง (รวม category)
         $favorites = Favourite::with(['product.category'])
-            ->where('user_id', $userId)
+            ->where('user_id', $userId) // เงื่อนไขกรองเฉพาะรายการโปรดของผู้ใช้ที่มี user_id ตรงกับ $userId
             ->get();
 
+        // ส่งข้อมูล $favorites ไปยัง view favorites.index
         return view('favorites.index', [
             'favorites' => $favorites,
         ]);
     }
 
+    // ฟังก์ชันสำหรับ toggle สถานะของการเป็นรายการโปรดของสินค้า
     public function toggle(Request $request, Product $product): JsonResponse
     {
-        $user = $request->user();
+        $user = $request->user(); // ดึงข้อมูลผู้ใช้จาก (Request) เพื่อเช็คว่าผู้ใช้ล็อกอินไหม
         abort_unless($user, 401);
 
         // ใช้ belongsToMany บน User เพื่อ toggle รายการโปรด
         $toggled = $user->favourites()->toggle($product->getKey());
 
         return response()->json([
-            'liked' => !empty($toggled['attached']),
+            'liked' => !empty($toggled['attached']), // ถ้ามีข้อมูลใน 'attached' หมายความว่าถูกเพิ่ม
         ]);
     }
 
+    // ฟังก์ชันสำหรับการเพิ่มสินค้าลงในรายการโปรด
     public function store(Product $product): RedirectResponse
     {
         $user = Auth::user();
         abort_unless($user, 403);
 
-        $alreadyFavorited = Favourite::where('user_id', $user->getKey())
-            ->where('product_id', $product->getKey())
-            ->exists();
+        // ตรวจสอบว่าผู้ใช้ได้เพิ่มสินค้านี้เป็นรายการโปรดไปแล้วหรือไม่
+        $alreadyFavorited = Favourite::where('user_id', $user->getKey()) 
+            ->where('product_id', $product->getKey()) // เช็คว่ามีการเพิ่มสินค้าดังกล่าวในรายการโปรดแล้วหรือไม่
+            ->exists(); // ตรวจสอบว่ามีข้อมูลนี้ในฐานข้อมูลหรือไม่
 
         if ($alreadyFavorited) {
             return redirect()

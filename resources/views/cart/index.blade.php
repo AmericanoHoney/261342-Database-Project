@@ -41,9 +41,9 @@
               <tr data-item="{{ $item->cart_id }}-{{ $item->product_id }}" class="hover:bg-pink-50 transition">
                 <td class="py-4 px-5 flex items-center space-x-3">
                   <img src="{{ asset($item->product->image_url ?? 'images/default.png') }}"
-                                    <img src="{{ $item->product->image_url ?? asset('images/default.png') }}"
                        class="w-12 h-12 object-cover rounded-md border border-pink-100"
-                       loading="lazy">
+                       loading="lazy"
+                       alt="{{ $item->product->name }}">
                   <div>
                     <p class="font-semibold text-gray-800">{{ $item->product->name }}</p>
                     <p class="text-sm text-gray-500">{{ $item->product->description }}</p>
@@ -96,6 +96,7 @@
           </a>
         </div>
       @endif
+    </div>
     </div>
   </div>
 
@@ -178,17 +179,4 @@
     });
   }
   </script>
-                <div class="flex justify-between items-center mt-6">
-                    <p class="text-lg font-semibold text-gray-800">
-                        Total: ${{ number_format($cart->total(), 2) }}
-                    </p>
-                    <a href="/checkout"
-                       class="px-6 py-2 bg-pink-600 text-white rounded-full font-semibold hover:bg-[#b25d7d] transition">
-                       Proceed to Checkout
-                    </a>
-                </div>
-            @endif
-            </div>
-        </div>
-    </div>
 </x-app-layout>
