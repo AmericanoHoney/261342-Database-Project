@@ -68,7 +68,7 @@
                                 Favorites
                             </a>
 
-                            <a href="{{ route('history') }}" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <a href="{{ route('orders.history') }}" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-pink-600">
                                     <path stroke-linecap="round" stroke-linejoin="round"
