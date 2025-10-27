@@ -34,7 +34,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="mb-0 bg-white flex-1 flex items-center">
+            <main class="mb-0 bg-white flex-1 flex flex-col">
                 {{ $slot }}
             </main>
         </div>

@@ -5,7 +5,7 @@
     </h2>
   </x-slot>
 
-  <div class="bg-[#F7F6F8] min-h-screen">
+  <div class="bg-white min-h-screen">
     <div class="max-w-5xl mx-auto space-y-4 py-6">
             @if (session('success'))
                 <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-emerald-700">
