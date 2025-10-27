@@ -104,12 +104,12 @@
       Swal.fire({
         html: `
           <div style="font-family:'Poppins','Kanit',sans-serif;color:#333;text-align:left;max-width:600px;">
-            <h2 style="text-align:center;margin-bottom:14px;color:#e85a8e;font-weight:700;font-size:1.3rem;">
+            <h2 style="text-align:center;margin-bottom:14px;color:#B6487B;font-weight:700;font-size:1.3rem;">
               Order Details
             </h2>
 
             <div style="
-              background:#fff6f8;
+              background:#ffffff;
               border:1px solid #fbd3de;
               border-radius:12px;
               padding:14px 18px;
@@ -147,7 +147,7 @@
               </div>
               <hr style="border-color:#fbd3de;margin:6px 0;">
               <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:600;">
-                <span>Total</span><span style="color:#e85a8e;">$${fmt(order.final_total)}</span>
+                <span>Total</span><span style="color:#B6487B;">$${fmt(order.final_total)}</span>
               </div>
             </div>
 
@@ -157,8 +157,8 @@
           </div>
         `,
         confirmButtonText: 'Close',
-        confirmButtonColor: '#e85a8e',
-        background: '#fffdfd',
+        confirmButtonColor: '#B6487B',
+        background: '#ffffff',
         width: 640,
         padding: '1.5rem',
         customClass: {
@@ -174,7 +174,7 @@
         icon: 'error',
         title: 'Oops...',
         text: 'Unable to load order details 💔',
-        confirmButtonColor: '#e85a8e',
+        confirmButtonColor: '#B6487B',
       });
     }
   }
