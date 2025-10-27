@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/products', fn() => view('products.index'))->name('products');
     Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/favorites', [FavouriteController::class, 'index'])->name('favorites');
+    Route::post('/favorites/{product}', [FavouriteController::class, 'store'])->name('favorites.store');
     Route::get('/favorites/{product}', [FavouriteController::class, 'show'])->name('favorites.show');
     Route::delete('/favorites/{product}', [FavouriteController::class, 'destroy'])->name('favorites.destroy');
     Route::get('/history', fn() => view('history.index'))->name('history');

@@ -19,6 +19,32 @@ class FavouriteController extends Controller
         ]);
     }
 
+    public function store(Product $product): RedirectResponse
+    {
+        $userId = auth()->id();
+
+        abort_unless($userId, 403);
+
+        $alreadyFavorited = Favourite::where('user_id', $userId)
+            ->where('product_id', $product->getKey())
+            ->exists();
+
+        if ($alreadyFavorited) {
+            return redirect()
+                ->route('favorites.show', $product)
+                ->with('status', "{$product->name} is already in your favorites.");
+        }
+
+        Favourite::create([
+            'user_id' => $userId,
+            'product_id' => $product->getKey(),
+        ]);
+
+        return redirect()
+            ->route('favorites.show', $product)
+            ->with('status', "{$product->name} has been added to your favorites.");
+    }
+
     public function show(Product $product)
     {
         $userId = auth()->id();
@@ -33,6 +59,7 @@ class FavouriteController extends Controller
 
         return view('detail.index', [
             'product' => $product,
+            'isFavorited' => true,
         ]);
     }
 

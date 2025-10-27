@@ -1,6 +1,8 @@
 @props([
     'product',
     'imageUrl',
+    'isFavorite' => false,
+    'addFavoriteAction' => null,
     'removeFavoriteAction' => null,
 ])
 
@@ -12,6 +14,8 @@
 
     <x-detail.product-information
         :product="$product"
+        :is-favorite="$isFavorite"
+        :add-favorite-action="$addFavoriteAction"
         :remove-favorite-action="$removeFavoriteAction"
     />
 </div>
