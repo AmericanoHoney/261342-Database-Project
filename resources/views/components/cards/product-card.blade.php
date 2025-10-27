@@ -9,12 +9,12 @@
     $formattedPrice = is_numeric($price) ? '$' . number_format((float) $price, 2) : $price;
 @endphp
 
-<article class="bg-white rounded-[40px] shadow-md overflow-hidden transition hover:shadow-lg w-[260px]">
+<article class="bg-white rounded-[40px] shadow-md overflow-hidden transition hover:shadow-lg w-full h-full items-center justify-center">
     <div class="relative">
         <img
             src="{{ $image }}"
             alt="{{ $name }}"
-            class="w-[260px] h-[260px] object-contain"
+            class="w-full h-[260px] object-contain"
         />
         <div class="absolute top-3 right-3">
             @isset($favoriteAction)

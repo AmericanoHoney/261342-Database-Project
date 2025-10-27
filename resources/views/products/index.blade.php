@@ -3,50 +3,77 @@
         <h1 class="text-3xl font-bold text-center mb-8">All Products</h1>
 
         {{-- Search + Filter + Sort --}}
-        <form method="GET" class="flex flex-wrap justify-center gap-3 mb-10">
-            <div class="relative w-full md:w-1/2">
+        <form method="GET"
+            class="flex flex-wrap items-center justify-center gap-3 mb-10">
+
+            {{-- Search: กว้างสุด ดันองค์ประกอบอื่น --}}
+            <div class="relative flex-1 min-w-[220px]">
                 <input
                     type="text"
                     name="search"
                     value="{{ request('search') }}"
-                    placeholder="Search name or keyword..."
-                    class="w-full pl-10 pr-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                    placeholder="Search"
+                    class="w-full h-11 pl-10 pr-4 rounded-full border border-gray-300 text-sm
+                        placeholder-gray-400
+                        focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-pink-600"
                 />
                 <svg xmlns="http://www.w3.org/2000/svg"
-                     class="absolute left-3 top-3.5 w-5 h-5 text-gray-400"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+                        d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
                 </svg>
             </div>
 
-            <select name="category"
-                class="px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                <option value="">Filter</option>
-                @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
-                        {{ $cat->name }}
-                    </option>
-                @endforeach
-            </select>
+            {{-- Category Filter --}}
+            <div class="relative">
+                <select name="category"
+                    class="h-11 pl-4 pr-10 rounded-full text-sm border border-gray-300 bg-white
+                        min-w-[190px] md:min-w-[220px]
+                        focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-pink-600 appearance-none">
+                    <option value="" {{ request()->filled('category') ? '' : 'selected' }}>Flower Bouquets</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->category_id }}"
+                            {{ (string)request('category') === (string)$cat->category_id ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.188l3.71-3.96a.75.75 0 111.08 1.04l-4.23 4.51a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+            </div>
 
-            <select name="sort"
-                class="px-4 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
-                <option value="">Sort</option>
-                <option value="price_asc" {{ request('sort')=='price_asc'?'selected':'' }}>Price: Low → High</option>
-                <option value="price_desc" {{ request('sort')=='price_desc'?'selected':'' }}>Price: High → Low</option>
-                <option value="name_asc" {{ request('sort')=='name_asc'?'selected':'' }}>Name: A → Z</option>
-                <option value="name_desc" {{ request('sort')=='name_desc'?'selected':'' }}>Name: Z → A</option>
-            </select>
+            {{-- Sort --}}
+            <div class="relative">
+                <select name="sort"
+                    class="h-11 pl-4 pr-10 rounded-full text-sm border border-pink-600 text-pink-700 bg-white
+                        min-w-[200px] md:min-w-[230px]
+                        focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-pink-600 appearance-none">
+                    <option value="">Sort</option>
+                    <option value="price_asc"  {{ request('sort')=='price_asc'  ? 'selected' : '' }}>Price: Low → High</option>
+                    <option value="price_desc" {{ request('sort')=='price_desc' ? 'selected' : '' }}>Price: High → Low</option>
+                    <option value="name_asc"   {{ request('sort')=='name_asc'   ? 'selected' : '' }}>Name: A → Z</option>
+                    <option value="name_desc"  {{ request('sort')=='name_desc'  ? 'selected' : '' }}>Name: Z → A</option>
+                </select>
+                <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-600"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.188l3.71-3.96a.75.75 0 111.08 1.04l-4.23 4.51a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                </svg>
+            </div>
 
+            {{-- Submit --}}
             <button type="submit"
-                class="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-full">
+                class="h-11 px-6 rounded-full bg-pink-600 hover:bg-pink-700 text-white text-sm font-medium
+                    transition focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-1">
                 Search
             </button>
         </form>
 
+
         {{-- Product grid --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             @forelse($products as $product)
                 <x-cards.product-card
                     :image="asset($product->image_url)"
