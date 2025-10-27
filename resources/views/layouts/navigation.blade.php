@@ -40,7 +40,13 @@
                 <div class="relative">
                     <button @click="openUserMenu = !openUserMenu"
                             class="flex items-center text-pink-600 hover:text-pink-700 transition">
-                        <img src="{{ asset('images/user.png') }}" alt="Logo" class="w-7 h-7 inline-block align-middle">
+                        @if (!empty($user->photo))
+                            <!-- ถ้าผู้ใช้มีรูปโปรไฟล์ -->
+                            <img src="{{ asset('storage/' . $user->photo) }}" alt="Profile Picture" class="w-7 h-7 inline-block align-middle rounded-full">
+                        @else
+                            <!-- ถ้าผู้ใช้ยังไม่มีรูป ให้ใช้ default -->
+                            <img src="{{ asset('images/user.png') }}" alt="Default Profile" class="w-7 h-7 inline-block align-middle">
+                        @endif
                     </button>
 
                     <!-- Dropdown -->
