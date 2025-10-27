@@ -6,7 +6,20 @@
     </x-slot>
 
     <div class=" bg-[#F7F6F8] min-h-screen">
-        <div class="max-w-5xl mx-auto bg-white shadow-md rounded-2xl p-4 border border-[#E2E2E2]">
+        <div class="max-w-5xl mx-auto space-y-4 py-6">
+            @if (session('success'))
+                <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-emerald-700">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="rounded-2xl border border-rose-200 bg-rose-50 px-6 py-4 text-rose-700">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <div class="bg-white shadow-md rounded-2xl p-4 border border-[#E2E2E2]">
             @if ($cart->items->isEmpty())
                 <div class="text-center py-20 text-gray-500 italic text-lg">
                     Your cart is empty 💔
@@ -25,7 +38,7 @@
                         @foreach ($cart->items as $item)
                             <tr class="hover:bg-[#F7F6F8] transition">
                                 <td class="py-4 px-5 flex items-center space-x-3">
-                                    <img src="{{ asset($item->product->image_path ?? 'images/default.png') }}"
+                                    <img src="{{ $item->product->image_url ?? asset('images/default.png') }}"
                                          class="w-12 h-12 object-cover rounded-md border">
                                     <div>
                                         <p class="font-semibold text-gray-800">{{ $item->product->name }}</p>
@@ -56,6 +69,7 @@
                     </a>
                 </div>
             @endif
+            </div>
         </div>
     </div>
 </x-app-layout>

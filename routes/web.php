@@ -26,9 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
-
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
@@ -44,7 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorites/{product}', [FavouriteController::class, 'show'])->name('favorites.show');
     Route::delete('/favorites/{product}', [FavouriteController::class, 'destroy'])->name('favorites.destroy');
     Route::get('/history', fn() => view('history.index'))->name('history');
-    Route::get('/cart', fn() => view('cart.index'))->name('cart');
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 });

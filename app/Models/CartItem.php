@@ -10,6 +10,8 @@ class CartItem extends Model
     use HasFactory;
 
     protected $table = 'cart_items';
+    protected $primaryKey = null;
+    public $incrementing = false;
     public $timestamps = true;
     protected $fillable = ['cart_id', 'product_id', 'quantity'];
 
@@ -26,5 +28,11 @@ class CartItem extends Model
     public function subtotal()
     {
         return $this->quantity * $this->product->price;
+    }
+
+    protected function setKeysForSaveQuery($query)
+    {
+        return $query->where('cart_id', $this->cart_id)
+                     ->where('product_id', $this->product_id);
     }
 }

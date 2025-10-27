@@ -14,7 +14,6 @@
 @endphp
 
 <x-app-layout>
-    <section class="min-h-screen bg-white py-20">
         <div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 tracking-wide">
             <div class="flex flex-wrap items-center justify-between gap-4">
 
@@ -24,8 +23,6 @@
                     </div>
                 @endif
             </div>
-
-            <div class="rounded-[56px] bg-[#FDFDFD] p-12 shadow-[0_45px_95px_rgba(0,0,0,0.08)]">
                 <x-detail.product-showcase
                     :product="$product"
                     :image-url="$imageUrl"
@@ -33,7 +30,6 @@
                     :add-favorite-action="$addFavoriteRoute"
                     :remove-favorite-action="$removeFavoriteRoute"
                 />
-            </div>
         </div>
-    </section>
+
 </x-app-layout>

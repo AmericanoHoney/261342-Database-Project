@@ -13,8 +13,7 @@
     $isInStock = (int) ($product->stock ?? 0) > 0;
     $badgeLabel = $isInStock ? __('In Stock') : __('Out of Stock');
     $maxQuantity = max(1, (int) ($product->stock ?? 1));
-    $favoriteButtonClasses = 'inline-flex h-14 w-14 items-center justify-center rounded-full border border-[#B6487B] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
-    $favoriteButtonClasses .= $isFavorite ? ' bg-[#B6487B]/10 hover:bg-[#B6487B]/20' : ' hover:bg-[#B6487B]/10';
+    $favoriteButtonClasses = 'inline-flex h-10 w-10 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B6487B] focus-visible:ring-offset-2';
 @endphp
 
 <div {{ $attributes->class('space-y-8') }}>
@@ -51,11 +50,11 @@
             }"
             class="flex flex-wrap items-center gap-4"
         >
-            <div class="inline-flex h-14 items-center gap-6 rounded-full bg-[#B6487B] px-8 text-white shadow-[0_20px_30px_rgba(182,72,123,0.25)]">
+            <div class="inline-flex h-[60px] w-[171px] items-center justify-center gap-4 rounded-full bg-[#B6487B] px-6 text-white shadow-[0_20px_30px_rgba(182,72,123,0.25)]">
                 <button
                     type="button"
                     @click="decrease()"
-                    class="text-xl font-semibold transition hover:text-white/80"
+                    class="text-lg font-semibold transition hover:text-white/80"
                 >
                     &minus;
                 </button>
@@ -63,18 +62,24 @@
                 <button
                     type="button"
                     @click="increase()"
-                    class="text-xl font-semibold transition hover:text-white/80"
+                    class="text-lg font-semibold transition hover:text-white/80"
                 >
                     +
                 </button>
             </div>
 
-            <a
-                href="{{ route('cart') }}"
-                class="inline-flex h-14 items-center rounded-full bg-[#B6487B] px-10 text-sm font-semibold text-white shadow-[0_18px_35px_rgba(182,72,123,0.22)] transition hover:bg-[#9d3a68]"
-            >
-                {{ __('Add to cart') }}
-            </a>
+            <form method="POST" action="{{ route('cart.store') }}" class="inline-block">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->getKey() }}">
+                <input type="hidden" name="quantity" :value="quantity">
+                <button
+                    type="submit"
+                    class="inline-flex h-[60px] w-[171px] items-center justify-center rounded-full bg-[#B6487B] px-8 text-sm font-semibold text-white shadow-[0_18px_35px_rgba(182,72,123,0.22)] transition hover:bg-[#9d3a68] {{ $isInStock ? '' : 'opacity-60 cursor-not-allowed hover:bg-[#B6487B]' }}"
+                    @if (!$isInStock) disabled @endif
+                >
+                    {{ $isInStock ? __('Add to cart') : __('Out of stock') }}
+                </button>
+            </form>
 
             @if ($addFavoriteAction)
                 <form method="POST" action="{{ $addFavoriteAction }}">
@@ -85,7 +90,7 @@
                         title="{{ __('Add to favorites') }}"
                         aria-label="{{ __('Add to favorites') }}"
                     >
-                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-8 w-8">
+                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-10 w-10">
                     </button>
                 </form>
             @elseif ($removeFavoriteAction)
@@ -98,7 +103,7 @@
                         title="{{ __('Remove from favorites') }}"
                         aria-label="{{ __('Remove from favorites') }}"
                     >
-                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-8 w-8">
+                        <img src="{{ asset('images/fav.svg') }}" alt="Favorite icon" class="h-10 w-10">
                     </button>
                 </form>
             @endif

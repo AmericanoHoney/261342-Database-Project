@@ -34,7 +34,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="mb-0">
+            <main class="mb-0 bg-white">
                 {{ $slot }}
             </main>
         </div>
