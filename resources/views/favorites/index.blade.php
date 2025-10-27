@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto px-6 py-12 space-y-8">
+    <div class="max-w-6xl mx-auto px-6 py-12 space-y-8 self-start">
         @if (session('status'))
             <div class="rounded-full bg-green-100 text-green-700 px-4 py-2 text-sm text-center">
                 {{ session('status') }}

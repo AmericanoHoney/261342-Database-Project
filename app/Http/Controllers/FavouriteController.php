@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Favourite;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class FavouriteController extends Controller
 {
-    public function toggle(Request $request, Product $product)
-    public function index()
+    public function index(): View
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthenticated'], 401);
-        }
+        $userId = Auth::id();
+
+        abort_unless($userId, 401);
+
         $favorites = Favourite::with(['product.category'])
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->get();
 
         return view('favorites.index', [
@@ -24,31 +27,36 @@ class FavouriteController extends Controller
         ]);
     }
 
+    public function toggle(Request $request, Product $product): JsonResponse
+    {
         $user = $request->user();
+        abort_unless($user, 401);
+
+        // ใช้ belongsToMany บน User เพื่อ toggle รายการโปรด
+        $toggled = $user->favourites()->toggle($product->getKey());
+
+        return response()->json([
+            'liked' => !empty($toggled['attached']),
+        ]);
+    }
+
     public function store(Product $product): RedirectResponse
     {
-        $userId = auth()->id();
+        $user = Auth::user();
+        abort_unless($user, 403);
 
-        abort_unless($userId, 403);
-
-        // ใช้ belongsToMany บน User เพื่อ toggle
-        $toggled = $user->favourites()->toggle($product->getKey());
-        $alreadyFavorited = Favourite::where('user_id', $userId)
+        $alreadyFavorited = Favourite::where('user_id', $user->getKey())
             ->where('product_id', $product->getKey())
             ->exists();
 
-        // ถ้ามีใน 'attached' แปลว่าเพิ่งกด like
-        $liked = !empty($toggled['attached']);
         if ($alreadyFavorited) {
             return redirect()
                 ->route('favorites.show', $product)
                 ->with('status', "{$product->name} is already in your favorites.");
         }
 
-        return response()->json([
-            'liked' => $liked,
         Favourite::create([
-            'user_id' => $userId,
+            'user_id' => $user->getKey(),
             'product_id' => $product->getKey(),
         ]);
 
@@ -57,11 +65,12 @@ class FavouriteController extends Controller
             ->with('status', "{$product->name} has been added to your favorites.");
     }
 
-    public function show(Product $product)
+    public function show(Product $product): View
     {
-        $userId = auth()->id();
+        $user = Auth::user();
+        abort_unless($user, 403);
 
-        $isFavorited = Favourite::where('user_id', $userId)
+        $isFavorited = Favourite::where('user_id', $user->getKey())
             ->where('product_id', $product->getKey())
             ->exists();
 
@@ -77,9 +86,10 @@ class FavouriteController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
-        $userId = auth()->id();
+        $user = Auth::user();
+        abort_unless($user, 403);
 
-        $deleted = Favourite::where('user_id', $userId)
+        $deleted = Favourite::where('user_id', $user->getKey())
             ->where('product_id', $product->getKey())
             ->delete();
 
