@@ -9,7 +9,12 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $categories = ['Flowers', 'Bouquets', 'Gifts', 'Decor', 'Accessories'];
+        $categories = [
+            'Flower Bouquets',
+            'Flower Baskets',
+            'Dried Flowers',
+            'Single Blossom',
+        ];
 
         foreach ($categories as $name) {
             Category::create(['name' => $name]);

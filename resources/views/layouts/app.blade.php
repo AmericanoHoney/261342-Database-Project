@@ -11,6 +11,8 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -38,7 +40,7 @@
         </div>
 
         <!-- 🌸 Fixed Footer (แนบขอบล่างสุดตลอดเวลา) -->
-        <footer class="fixed bottom-0 left-0 w-full bg-pink-600 text-white text-center py-3 z-50 m-0 border-0 rounded-none shadow-none">
+        <footer class="w-full bg-pink-600 text-white text-center py-3 z-50 m-0 border-0 rounded-none shadow-none">
             <p class="text-sm font-medium">
                 © {{ date('Y') }} Flortalera | All Rights Reserved
             </p>
