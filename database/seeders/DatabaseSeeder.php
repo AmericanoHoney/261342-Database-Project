@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PromotionSeeder::class,
             OrderPromotionSeeder::class,
             FavouriteSeeder::class,
+            PromotionSeeder::class,
         ]);
     }
 }

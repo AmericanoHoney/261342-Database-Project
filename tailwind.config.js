@@ -13,6 +13,13 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                script: ['"Great Vibes"', 'cursive'],
+            },
+            colors: {
+                pink: {
+                600: '#B6487B',
+                700: '#9E3F6E', // เฉดเข้มขึ้นเล็กน้อยไว้ใช้ตอน hover
+                },
             },
         },
     },
