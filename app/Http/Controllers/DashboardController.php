@@ -1,9 +1,9 @@
 <?php
 
-// app/Http/Controllers/DashboardController.php
 namespace App\Http\Controllers;
 
 use App\Models\Promotion;
+use App\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -14,6 +14,11 @@ class DashboardController extends Controller
             ->take(10)
             ->get(['promotion_id','name','promotion_photo','discount_percent','active']);
 
-        return view('dashboard', compact('promotions'));
+        $products = Product::with('category')
+            ->latest()
+            ->take(8)
+            ->get(['product_id','name','price','image_url','category_id']);
+
+        return view('dashboard', compact('promotions', 'products'));
     }
 }

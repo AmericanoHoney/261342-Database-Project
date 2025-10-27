@@ -4,40 +4,47 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $products = [
-            [
-                'name' => 'Rose Bouquet',
-                'price' => 1200.00,
-                'stock' => 20,
-                'description' => 'A lovely bouquet of red roses.',
-                'image_url' => 'images/products/rose-bouquet.jpg',
-                'category_id' => 2
+        $categories = Category::pluck('category_id', 'name');
+
+        $sampleProducts = [
+            'Flower Bouquets' => [
+                'Rose Romance', 'Tulip Treasure', 'Peony Passion', 'Lily Love', 'Carnation Charm',
+                'Mixed Spring', 'Pastel Dream', 'Sunshine Bouquet', 'Evening Glow', 'Classic Elegance',
             ],
-            [
-                'name' => 'Orchid Pot',
-                'price' => 650.00,
-                'stock' => 15,
-                'description' => 'Elegant orchids in a ceramic pot.',
-                'image_url' => 'images/products/orchid-pot.jpg',
-                'category_id' => 1
+            'Flower Baskets' => [
+                'Morning Basket', 'Rustic Charm', 'Sweet Serenity', 'Blossom Basket', 'Delightful Daisies',
+                'Warm Wishes', 'Floral Fantasy', 'Soft Petals', 'Cheerful Day', 'Graceful Gift',
             ],
-            [
-                'name' => 'Gift Box Set',
-                'price' => 950.00,
-                'stock' => 10,
-                'description' => 'Perfect for birthdays and special occasions.',
-                'image_url' => 'images/products/gift-box.jpg',
-                'category_id' => 3
+            'Dried Flowers' => [
+                'Golden Wheat', 'Lavender Bliss', 'Rustic Rose', 'Vintage Garden', 'Dried Harmony',
+                'Muted Meadow', 'Forever Bloom', 'Autumn Whisper', 'Natural Charm', 'Country Calm',
+            ],
+            'Single Blossom' => [
+                'Single Red Rose', 'Pure White Lily', 'Golden Sunflower', 'Pink Tulip', 'Blue Hydrangea',
+                'Orchid Elegance', 'White Carnation', 'Orange Gerbera', 'Violet Charm', 'Crimson Peony',
             ],
         ];
 
-        foreach ($products as $product) {
-            Product::create($product);
+        foreach ($sampleProducts as $categoryName => $products) {
+            $categoryId = $categories[$categoryName] ?? null;
+            if (!$categoryId) continue;
+
+            foreach ($products as $name) {
+                Product::create([
+                    'name' => $name,
+                    'price' => rand(300, 1500),
+                    'stock' => rand(5, 30),
+                    'description' => 'Beautiful ' . strtolower($categoryName) . ' arrangement named "' . $name . '".',
+                    'image_url' => 'images/products/' . str_replace(' ', '-', strtolower($name)) . '.jpg',
+                    'category_id' => $categoryId,
+                ]);
+            }
         }
     }
 }
