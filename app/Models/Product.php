@@ -35,9 +35,10 @@ class Product extends Model
         return $this->hasMany(OrderDetail::class, 'product_id');
     }
 
-    public function favourites()
+    public function favUsers()
     {
-        return $this->hasMany(Favourite::class, 'product_id');
+        return $this->belongsToMany(User::class, 'favourites', 'product_id', 'user_id')
+            ->withTimestamps();
     }
 
     /** คืน URL รูปภาพที่พร้อมใช้บนหน้าเว็บ */

@@ -11,39 +11,42 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with('category');
+        $userId = auth()->id();
+
+        $query = \App\Models\Product::query()
+            ->with('category')
+            ->when($userId, function ($q) use ($userId) {
+                // Laravel 10+: เพิ่มคอลัมน์เสมือน is_favorited จาก pivot
+                $q->withExists([
+                    'favUsers as is_favorited' => fn($qq) => $qq->where('user_id', $userId),
+                ]);
+            });
 
         if ($search = $request->get('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
+            $query->where(fn($q) => $q->where('name','like',"%{$search}%")
+                                    ->orWhere('description','like',"%{$search}%"));
         }
         if ($categoryId = $request->get('category')) {
             $query->where('category_id', $categoryId);
         }
         switch ($request->get('sort')) {
-            case 'price_asc':
-                $query->orderBy('price', 'asc');
-                break;
-            case 'price_desc':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'name_asc':
-                $query->orderBy('name', 'asc');
-                break;
-            case 'name_desc':
-                $query->orderBy('name', 'desc');
-                break;
-            default:
-                $query->latest('updated_at');
+            case 'price_asc':  $query->orderBy('price'); break;
+            case 'price_desc': $query->orderByDesc('price'); break;
+            case 'name_asc':   $query->orderBy('name'); break;
+            case 'name_desc':  $query->orderByDesc('name'); break;
+            default:           $query->latest('updated_at');
                 break;
         }
 
         $products = $query->paginate(12)->withQueryString();
-        $categories = Category::orderBy('name')->get();
+        $categories = \App\Models\Category::orderBy('name')->get();
 
-        return view('products.index', compact('products', 'categories'));
+        if (!$userId) {
+            // guest: กัน null
+            $products->getCollection()->each(fn($p) => $p->is_favorited = false);
+        }
+
+        return view('products.index', compact('products','categories'));
     }
 
     public function show(Product $product)

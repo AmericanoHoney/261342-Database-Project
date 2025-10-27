@@ -45,5 +45,6 @@
                 © {{ date('Y') }} Flortalera | All Rights Reserved
             </p>
         </footer>
+        @stack('scripts')
     </body>
 </html>

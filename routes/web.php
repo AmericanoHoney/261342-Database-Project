@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\FavouriteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/history', fn() => view('history.index'))->name('history');
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::post('/favourites/toggle/{product:product_id}', [FavouriteController::class, 'toggle'])
+        ->name('favourites.toggle');
 });
 
 require __DIR__.'/auth.php';

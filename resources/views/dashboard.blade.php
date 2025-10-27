@@ -8,7 +8,7 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="py-14 md:py-20 text-center">
                     <h1 class="text-8xl font-script text-gray-900 dark:text-gray-100 tracking-wide">
-                        Flotalera   
+                        Flotalera
                     </h1>
                     <p class="text-xl text-gray-700 dark:text-gray-200 font-light">
                         เรื่องของใจ ให้ดอกไม้เล่าแทน
@@ -57,10 +57,11 @@
                     >
                         <x-cards.product-card
                             :image="asset($prd->image_url)"
-                            :category="optional($prd->category)->name ?? 'Category'"
+                            :category="$prd->category->name ?? 'Unknown'"
                             :name="$prd->name"
                             :price="$prd->price"
-                        />
+                        :product-id="$prd->product_id"
+                        :is-favorited="(bool) ($prd->is_favorited ?? false)"/>
                     </a>
                 @endforeach
             </div>
