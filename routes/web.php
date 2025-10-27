@@ -25,6 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorites', fn() => view('favorites.index'))->name('favorites');
     
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/update/{cart_id}/{product_id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{cart_id}/{product_id}', [CartController::class, 'remove'])->name('cart.remove');
+
+
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
