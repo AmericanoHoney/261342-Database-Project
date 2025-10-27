@@ -3,27 +3,28 @@
     'category',
     'name',
     'price',
+    'productId' => null,
+    'isFavorited' => false,
 ])
 
 @php
     $formattedPrice = is_numeric($price) ? '$' . number_format((float) $price, 2) : $price;
 @endphp
 
-<article class="bg-white rounded-[40px] shadow-md overflow-hidden transition hover:shadow-lg w-[260px]">
+<article class="bg-white rounded-[40px] shadow-md overflow-hidden transition hover:shadow-lg w-full h-full">
     <div class="relative">
         <img
             src="{{ $image }}"
             alt="{{ $name }}"
-            class="w-[260px] h-[260px] object-contain"
+            class="w-full h-[260px] object-cover block"
         />
-        <div class="absolute top-3 right-3">
-            @isset($favoriteAction)
-                {{ $favoriteAction }}
-            @else
-                <div class="w-10 h-10 flex items-center justify-center">
-                    <img src="{{ asset('images/fav.svg') }}" alt="Favorite" class="w-10 h-10">
-                </div>
-            @endisset
+
+        {{-- ปุ่ม Favorite ด้านขวาบน --}}
+        <div class="absolute top-3 right-3 z-10 pointer-events-auto">
+            <x-buttons.favorite-button
+                :product-id="$productId"
+                :is-favorited="$isFavorited"
+            />
         </div>
     </div>
 

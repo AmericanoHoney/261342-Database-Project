@@ -53,9 +53,11 @@
                 @foreach ($products as $prd)
                     <x-cards.product-card
                         :image="$prd->image_url"
-                        :category="optional($prd->category)->name ?? 'Category'"
+                        :category="$prd->category->name ?? 'Unknown'"
                         :name="$prd->name"
                         :price="$prd->price"
+                        :product-id="$prd->product_id"
+                        :is-favorited="(bool) ($prd->is_favorited ?? false)"
                     />
                 @endforeach
             </div>
