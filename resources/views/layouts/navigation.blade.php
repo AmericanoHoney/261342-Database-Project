@@ -3,13 +3,14 @@
         <div class="flex justify-between h-16 items-center">
 
             <!-- Left: Logo -->
-            <div class="flex items-center justify-center space-x-2 min-w-[150px]">
-                <img src="{{ asset('images/logo.png') }}" alt="Flortalera" class="h-8 w-8 object-contain">
-                <span class="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                    Flortalera
-                </span>
-            </div>
-
+             <a href="{{ route('dashboard') }}">
+                <div class="flex items-center justify-center space-x-2 min-w-[150px]">
+                    <img src="{{ asset('images/logo.png') }}" alt="Flortalera" class="h-8 w-8 object-contain">
+                    <span class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                        Flortalera
+                    </span>
+                </div>
+            </a>
             <!-- Center: Navigation Links -->
             <div class="flex space-x-8">
                 <a href="{{ route('dashboard') }}"
