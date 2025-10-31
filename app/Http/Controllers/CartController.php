@@ -97,11 +97,16 @@ class CartController extends Controller
             ]);
         }
 
+        // --- กำหนดข้อความเริ่มต้น ป้องกันตัวแปรหาย ---
+        $added   = max(0, $finalQuantity - $existingQuantity);
+        $message = __('Added :count piece(s) to your cart.', ['count' => $added]);
+
         if ($finalQuantity <= $existingQuantity) {
             $message = __('You already have the maximum available quantity for this product in your cart.');
         } elseif ($finalQuantity < $desiredQuantity) {
-            $added = $finalQuantity - $existingQuantity;
-            $message = __('Only :count piece(s) were available and have been added to your cart.', ['count' => $added]);
+            $message = __('Only :count piece(s) were available and have been added to your cart.', [
+                'count' => $added,
+            ]);
         }
 
         return redirect()->route('cart.index')->with('success', $message);
