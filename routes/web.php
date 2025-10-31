@@ -28,11 +28,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
-/*
-|--------------------------------------------------------------------------
-| Protected Routes (ต้องล็อกอิน)
-|--------------------------------------------------------------------------
-*/
 Route::middleware('auth')->group(function () {
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
