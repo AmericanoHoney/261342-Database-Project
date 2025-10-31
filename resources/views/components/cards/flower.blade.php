@@ -35,7 +35,7 @@
                 {{ $favoriteAction }}
             @else
                 <div class="w-10 h-10 flex items-center justify-center">
-                    <img src="{{ asset('images/fav.svg') }}" alt="Favorite" class="w-10 h-10">
+                    <img src="{{ asset('images/icon/liked.png') }}" alt="Favorite" class="w-10 h-10">
                 </div>
             @endisset
         </div>

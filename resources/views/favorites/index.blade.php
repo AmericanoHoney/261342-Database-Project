@@ -46,7 +46,7 @@
                                         type="button"
                                         class="w-10 h-10 flex items-center justify-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#B6487B]"
                                     >
-                                        <img src="{{ asset('images/fav.svg') }}" alt="Remove from favorites" class="w-10 h-10">
+                                        <img src="{{ asset('images/icon/liked.png') }}" alt="Remove from favorites" class="w-10 h-10">
                                     </button>
                                 </x-slot>
                             </x-dialog.confirm-delete>

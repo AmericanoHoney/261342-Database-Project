@@ -15,7 +15,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 | Public Routes (ไม่ต้องล็อกอิน)
 |--------------------------------------------------------------------------
 */
-Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
