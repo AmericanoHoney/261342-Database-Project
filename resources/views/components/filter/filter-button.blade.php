@@ -13,12 +13,13 @@
     $displayLabel = $slot->isEmpty()
         ? $label
         : trim(strip_tags($slot));
+    $initialSelected = in_array($displayLabel, $dropdownOptions, true) ? $displayLabel : null;
 @endphp
 
 <div
     x-data="{
         open: false,
-        selected: null,
+        selected: @js($initialSelected),
         label: @js($displayLabel),
         options: @js($dropdownOptions),
         toggle() {
@@ -36,7 +37,7 @@
             return this.selected ?? this.label;
         }
     }"
-    @click.outside="close()"
+    @click.away="close()"
     @keydown.escape.window="close()"
     class="relative inline-block"
 >

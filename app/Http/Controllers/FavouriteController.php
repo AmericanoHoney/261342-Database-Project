@@ -23,9 +23,24 @@ class FavouriteController extends Controller
             ->where('user_id', $userId) // เงื่อนไขกรองเฉพาะรายการโปรดของผู้ใช้ที่มี user_id ตรงกับ $userId
             ->get();
 
+        $filterOptions = $favorites
+            ->map(function (Favourite $favourite) {
+                return $favourite->product?->category?->name ?? 'Uncategorized';
+            })
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
+
+        $filterOptions = array_values(array_filter($filterOptions, fn ($value) => $value !== 'All'));
+
+        array_unshift($filterOptions, 'All');
+
         // ส่งข้อมูล $favorites ไปยัง view favorites.index
         return view('favorites.index', [
             'favorites' => $favorites,
+            'filterOptions' => $filterOptions,
         ]);
     }
 

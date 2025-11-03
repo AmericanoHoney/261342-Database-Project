@@ -1,5 +1,39 @@
+@php
+    $filterOptions = $filterOptions ?? ['All'];
+    $initialFilter = $filterOptions[0] ?? 'All';
+@endphp
+
 <x-app-layout>
-    <div class="max-w-6xl mx-auto px-6 py-12 space-y-8 self-start">
+    <div
+        x-data="{
+            activeFilter: @js($initialFilter),
+            visibleCount: {{ $favorites->count() }},
+            applyFilter() {
+                const items = this.$refs.items ? Array.from(this.$refs.items.querySelectorAll('[data-category]')) : [];
+                let count = 0;
+
+                items.forEach((item) => {
+                    const category = item.getAttribute('data-category');
+                    const matches = this.activeFilter === 'All' || category === this.activeFilter;
+
+                    item.classList.toggle('hidden', !matches);
+
+                    if (matches) {
+                        count++;
+                    }
+                });
+
+                this.visibleCount = count;
+            },
+            setFilter(option) {
+                this.activeFilter = option;
+                this.applyFilter();
+            }
+        }"
+        x-init="applyFilter()"
+        @filter-selected.window="setFilter($event.detail.option)"
+        class="max-w-6xl mx-auto px-6 py-12 space-y-8 self-start"
+    >
         @if (session('status'))
             <div class="rounded-full bg-green-100 text-green-700 px-4 py-2 text-sm text-center">
                 {{ session('status') }}
@@ -11,10 +45,16 @@
                 <h1 class="text-3xl font-semibold text-gray-900 text-center">Favorite Collection</h1>
             </div>
 
-            <x-filter.filter-button />
+            <x-filter.filter-button
+                :options="$filterOptions"
+                label="All"
+            />
         </div>
 
-        <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div
+            x-ref="items"
+            class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        >
             @forelse ($favorites as $favorite)
                 @php
                     $product = $favorite->product;
@@ -23,12 +63,14 @@
                         ? (\Illuminate\Support\Str::startsWith($imagePath, ['http://', 'https://']) ? $imagePath : asset($imagePath))
                         : asset('images/flowers/ex1.webp');
                     $formId = $product ? 'remove-favorite-' . $product->getKey() : null;
+                    $categoryLabel = $product?->category?->name ?? 'Uncategorized';
                 @endphp
 
                 @if ($product)
                     <x-cards.flower
+                        :data-category="$categoryLabel"
                         :image="$imageUrl"
-                        :category="$product->category?->name ?? 'Uncategorized'"
+                        :category="$categoryLabel"
                         :name="$product->name"
                         :price="$product->price"
                         :href="route('detail', $product)"
@@ -64,8 +106,9 @@
                     </form>
                 @else
                     <x-cards.flower
+                        :data-category="$categoryLabel"
                         :image="$imageUrl"
-                        :category="$product?->category?->name ?? 'Uncategorized'"
+                        :category="$categoryLabel"
                         :name="$product?->name ?? 'Unknown Product'"
                         :price="$product?->price ?? 'N/A'"
                     />
@@ -73,6 +116,16 @@
             @empty
                 <p class="col-span-full text-center text-gray-500">No favorites yet. Start adding products to your favorites!</p>
             @endforelse
+
+            @if ($favorites->isNotEmpty())
+                <p
+                    x-show="visibleCount === 0"
+                    x-cloak
+                    class="col-span-full text-center text-gray-500"
+                >
+                    No favorites match this filter.
+                </p>
+            @endif
         </div>
     </div>
 </x-app-layout>

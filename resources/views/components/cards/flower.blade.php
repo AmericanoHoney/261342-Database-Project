@@ -10,7 +10,7 @@
     $formattedPrice = is_numeric($price) ? '$' . number_format((float) $price, 2) : $price;
 @endphp
 
-<article class="bg-white rounded-[40px] shadow-md overflow-hidden transition hover:shadow-lg w-[260px]">
+<article {{ $attributes->merge(['class' => 'bg-white rounded-[40px] shadow-md overflow-hidden transition hover:shadow-lg w-[260px]']) }}>
     <div class="relative">
         @if ($href)
             <a
